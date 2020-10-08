@@ -1,0 +1,41 @@
+.tag-cloud {
+  text-align: center;
+  .tag-cloud-tags{
+    a:nth-child(n) {
+      display: inline-block;
+      margin: 10px;
+      padding: 0 10px;
+      font-size: 1.5em !important;
+      border: 1px solid #d9ecff;
+      border-radius: 10px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      background-color: #f0f9eb;
+      border-color: #e1f3d8;
+      color: #67c23a !important;
+      transition: all 0.5s ease-in-out; 
+      box-shadow: 0 0 3px 1px #e0e0e0;
+
+      &:hover {
+        color: $link-hover-color !important;
+        transform: scale(1.1);
+        transform: rotate(360deg);
+        color: #333 !important;
+      }
+    }
+    a:nth-child(2n) {
+      color: #409eff !important;
+      background-color: #ecf5ff ;
+    }
+    a:nth-child(3n) {
+      background-color: #fdf6ec;
+      border-color: #faecd8;
+      color: #e6a23c !important;
+    }
+    a:nth-child(4n) {
+      background-color: #fef0f0;
+      border-color: #fde2e2;
+      color: #f56c6c !important;
+    }
+  }
+}

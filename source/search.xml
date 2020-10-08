@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>前端如何使用RSA加密和解密</title>
+    <url>/2020/05/17/%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RSA%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/</url>
+    <content><![CDATA[<h1 id="一、用openssl工具生成RSA的公钥和私钥"><a href="#一、用openssl工具生成RSA的公钥和私钥" class="headerlink" title="一、用openssl工具生成RSA的公钥和私钥"></a>一、用openssl工具生成RSA的公钥和私钥</h1><p><a href="https://oomake.com/download/openssl" target="_blank" rel="noopener">openssl下载地址</a><br>下载完openssl工具并安装之后，打开openssl文件夹下的bin文件夹，执行<font color="#f40">openssl.exe</font>程序：<br>如图：<br><img src="/2020/05/17/%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RSA%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/1.png" alt="1.png"></p>
+<a id="more"></a>
+<h2 id="（1）生成RSA私钥"><a href="#（1）生成RSA私钥" class="headerlink" title="（1）生成RSA私钥"></a>（1）生成RSA私钥</h2><p>打开openssl.exe 后输入<font color="#f40">genrsa -out rsa_private_key.pem 1024</font>   回车会看到结果<br><img src="/2020/05/17/%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RSA%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/2.png" alt="2.png"></p>
+<p>这时候bin文件夹中看到一个文件名为<font color="#f40">rsa_private_key.pem</font>的文件，用记事本方式打开它，可以看到—–BEGIN RSA PRIVATE KEY—–开头，—–END RSA PRIVATE KEY—–结尾的没有换行的字符串，这个就是原始的私钥。每次使用<font color="#f40">genrsa -out rsa_private_key.pem 1024</font>命令，私钥都会变的。<br><img src="/2020/05/17/%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RSA%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/3.png" alt="3.png"></p>
+<h2 id="（2）生成RSA公钥"><a href="#（2）生成RSA公钥" class="headerlink" title="（2）生成RSA公钥"></a>（2）生成RSA公钥</h2><p>输入命令：<font color="#f40">rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem</font>，并回车，得到生成成功的结果<br><img src="/2020/05/17/%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RSA%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/4.png" alt="4.png"></p>
+<p>这时候可以在bin文件夹中看到一个文件名为rsa_public_key.pem的文件，用记事本方式打开它，可以看到—–BEGIN PUBLIC KEY—–开头，—–END PUBLIC KEY—–结尾的没有换行的字符串，这个就是公钥。<br><img src="/2020/05/17/%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RSA%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/5.png" alt="5.png"></p>
+<h2 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h2><p><font color="#f40">必须先生成私钥再生成公钥才行。</font></p>
+<h1 id="二、用jsencrypt来进行RSA的加密和解密"><a href="#二、用jsencrypt来进行RSA的加密和解密" class="headerlink" title="二、用jsencrypt来进行RSA的加密和解密"></a>二、用jsencrypt来进行RSA的加密和解密</h1><p>这次我是用的React使用的jsencrypt进行的操作。<br><font color="#f40">使用场景</font></p>
+<ul>
+<li>需要在本地存储一些标志位，安全问题</li>
+<li>用户登录密码的加密<h2 id="（1）安装jsencrypt"><a href="#（1）安装jsencrypt" class="headerlink" title="（1）安装jsencrypt"></a>（1）安装jsencrypt</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">npm install jsencrypt --save</span><br></pre></td></tr></table></figure>
+<h2 id="（2）生成一对RSA公钥和私钥"><a href="#（2）生成一对RSA公钥和私钥" class="headerlink" title="（2）生成一对RSA公钥和私钥"></a>（2）生成一对RSA公钥和私钥</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> JSEncrypt <span class="keyword">from</span> <span class="string">'jsencrypt'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 私钥内容</span></span><br><span class="line"><span class="keyword">const</span> PRIV_KEY = <span class="string">`MIICXQIBAAKBgQDsNBA0WAtqWTNan3YrP20wbeIivc/dsXF0GBGLj3LmYrlPfOCa</span></span><br><span class="line"><span class="string">7sr0yzzzSmeb9iloig8C8Ao/swjw6iUdlcPV/pfY/FiFTTMiUNFLF503dvKkPRIf</span></span><br><span class="line"><span class="string">CLgnGb/5ZGunm7u/2W4ForUW1LsphlwUGbRmIOIuMUwXo6c8FR/4GhmqPwIDAQAB</span></span><br><span class="line"><span class="string">AoGBAOBwhClIs+gkxEBLH1zu0tDeyK6cT+Tm09gtepZzAwnZKx5VmZJ+bsl2SP8g</span></span><br><span class="line"><span class="string">ZxzyJdyYurTe484tT8SjqArZoQ9lP6Qs6ngH80WPg9O0dHFF8QD1bHFG2IfSlS40</span></span><br><span class="line"><span class="string">p5Tqlc2WT6RJgIK4NekowC7tPu7PONbf67CUCv2Fi0s3zpopAkEA/+lyaJNyVpA4</span></span><br><span class="line"><span class="string">Bd7mb5tvk8VmcPhHdpNkVuP29Glc74P5+VdsvNvDgo/StYooi8TscDNcIjBGLtom</span></span><br><span class="line"><span class="string">gljLARBqAwJBAOxI4SeYo6Vak8Eib83QiHEcDdM3HxEmzzRZkQJohipZwNGEqCDV</span></span><br><span class="line"><span class="string">WWsrXL2upUOT16xzOElZmnpOsxkRA3llqBUCQQD7AeX2ztCyOSjKEVSiman6Hf+Z</span></span><br><span class="line"><span class="string">xNyLYIxlcZnzJzlBsIhKWcbNAx0j/Z+l8opMdW2Xq7ity/26zLxC04biV1AzAkAJ</span></span><br><span class="line"><span class="string">BUdDQbqNp4WYi/4Et39eAhotBB+1gevLLdgxZVgp6b9IwG3CwyJkywUBYNeCWvSS</span></span><br><span class="line"><span class="string">6tstQbR6EuMXg+TED7N5AkA2xfsjd4z6jG1C6n8GpTo9S+Sz8obk2QUH0EqsN1E6</span></span><br><span class="line"><span class="string">Fg3nV/1B8xdPlhWhy77uC5UEDuJ57+5hj27jKf01CmU/`</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 公钥内容</span></span><br><span class="line"><span class="keyword">const</span> PUB_KEY = <span class="string">`MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDsNBA0WAtqWTNan3YrP20wbeIi</span></span><br><span class="line"><span class="string">vc/dsXF0GBGLj3LmYrlPfOCa7sr0yzzzSmeb9iloig8C8Ao/swjw6iUdlcPV/pfY</span></span><br><span class="line"><span class="string">/FiFTTMiUNFLF503dvKkPRIfCLgnGb/5ZGunm7u/2W4ForUW1LsphlwUGbRmIOIu</span></span><br><span class="line"><span class="string">MUwXo6c8FR/4GhmqPwIDAQAB`</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 公钥加密</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encrypt</span>(<span class="params">text</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> encrypt = <span class="keyword">new</span> JSEncrypt();</span><br><span class="line">    encrypt.setPublicKey(PUB_KEY);</span><br><span class="line">    <span class="keyword">const</span> encrypted = encrypt.encrypt(text);</span><br><span class="line">    <span class="keyword">return</span> encrypted;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 私钥解密</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">decrypt</span>(<span class="params">text</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> decrypt = <span class="keyword">new</span> JSEncrypt();</span><br><span class="line">    decrypt.setPrivateKey(PRIV_KEY);</span><br><span class="line">    <span class="keyword">const</span> decrypted = decrypt.decrypt(text);</span><br><span class="line">    <span class="keyword">return</span> decrypted;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(encrypt(<span class="string">"我是一段数据"</span>))  <span class="comment">// 加密</span></span><br><span class="line"><span class="built_in">console</span>.log(decrypt(encrypt(<span class="string">"我是一段数据"</span>)))  <span class="comment">// 解密</span></span><br></pre></td></tr></table></figure>
+运行结果：<br><img src="/2020/05/17/%E5%89%8D%E7%AB%AF%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RSA%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/6.png" alt="6.png"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js中用x，y坐标来实现模拟点击功能</title>
+    <url>/2020/05/12/js%E4%B8%AD%E7%94%A8x%EF%BC%8Cy%E5%9D%90%E6%A0%87%E6%9D%A5%E5%AE%9E%E7%8E%B0%E6%A8%A1%E6%8B%9F%E7%82%B9%E5%87%BB%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h1 id="一、应用场景"><a href="#一、应用场景" class="headerlink" title="一、应用场景"></a>一、应用场景</h1><p>目前我想到的应用场景就只有一个，就是用手机上用脚本自动点击指定位置的元素。<br>手机有个名为Auto.js的软件，这款软件可以写脚本的，脚本是可以在其他软件上运行的（真心给力的脚本软件，比如可以写一个蚂蚁森林收集能量的脚本、抢限时优惠卷的脚本等等），只不过要用auto.js的语法。<br>我当时用auto.js写手机上的一些脚本的时候就经常用一个click(x,y)的方法可以实现指定坐标元素点击的功能。<br>对Auto.js这款软件就不多介绍了，想多了解的话自行百度。</p>
+<h1 id="二、什么是Document-elementFromPoint"><a href="#二、什么是Document-elementFromPoint" class="headerlink" title="二、什么是Document.elementFromPoint()"></a>二、什么是Document.elementFromPoint()</h1><a id="more"></a>
+<h2 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h2><ul>
+<li>返回的是DOM元素.</li>
+<li>x 和 y 是坐标数值, 不需要单位比如px.<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.elementFromPoint(x, y);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h2><p>简单来说就是以<font color="#f40">浏览器窗口的左上角为原点</font>计算，获取对应的<font color="#f40">x坐标点</font>和<font color="#f40">y坐标点</font>的<font color="#f40">元素</font>。x,y指的是<font color="#f40">clientX</font>,<font color="#f40">clientY</font>。</p>
+<h2 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// html</span></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;p id=<span class="string">"para1"</span>&gt;Some text here&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button&gt;blue&lt;/</span>button&gt;</span><br><span class="line">    &lt;button&gt;red&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">//js</span></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">let</span> el = <span class="built_in">document</span>.elementFromPoint(<span class="number">69</span>, <span class="number">61</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(el);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行结果：<br>因为坐标(69, 61)对应就是名为red的button，所以就会获取到该元素。<br><img src="/2020/05/12/js%E4%B8%AD%E7%94%A8x%EF%BC%8Cy%E5%9D%90%E6%A0%87%E6%9D%A5%E5%AE%9E%E7%8E%B0%E6%A8%A1%E6%8B%9F%E7%82%B9%E5%87%BB%E5%8A%9F%E8%83%BD/1.png" alt="1.png"></p>
+<h1 id="三、什么是MouseEvent"><a href="#三、什么是MouseEvent" class="headerlink" title="三、什么是MouseEvent()"></a>三、什么是MouseEvent()</h1><h2 id="MouseEvent-的语法："><a href="#MouseEvent-的语法：" class="headerlink" title="MouseEvent()的语法："></a>MouseEvent()的语法：</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> event = <span class="keyword">new</span> MouseEvent(typeArg, mouseEventInit);</span><br></pre></td></tr></table></figure>
+<p>typeArg：事件名称<br>mouseEventInit （可选）<br>初始化 MouseEvent 的字典，有下列属性字段：</p>
+<ul>
+<li>“<font color="#f40">bubbles</font>“，Boolean 型可选，默认为true</li>
+<li>“<font color="#f40">cancelable</font>“，Boolean 型可选，默认为true</li>
+<li>“<font color="#f40">view</font>“，默认为window（我也不知道其他值是什么，目前就知道好像只能是window）</li>
+<li>“<font color="#f40">screenX</font>“，long 型可选，默认为 0，设置鼠标事件发生时相对于用户屏幕的水平坐标位置；该操作并不会改变真实鼠标的位置。</li>
+<li>“<font color="#f40">screenY</font>“，long 型可选，默认为 0，设置鼠标事件发生时相对于用户屏幕的垂直坐标位置；该操作并不会改变真实鼠标的位置。</li>
+<li>“<font color="#f40">clientX</font>“，long 型可选，默认为 0，设置鼠标事件时相对于客户端窗口的水平坐标位置；该操作并不会改变真实鼠标的位置。</li>
+<li>“<font color="#f40">clientY</font>“，long 型可选，默认为 0，设置鼠标事件时相对于客户端窗口的垂直坐标位置；该操作并不会改变真实鼠标的位置。</li>
+<li>“<font color="#f40">ctrlKey</font>“，Boolean 型可选，默认为false，标明是否同时按下 ctrl 键。</li>
+<li>“<font color="#f40">shiftKey</font>“，Boolean 型可选，默认为false，标明是否同时按下 shift 键。</li>
+<li>“<font color="#f40">altKey</font>“，Boolean 型可选，默认为 false，标明是否同时按下 alt 键。</li>
+<li>“<font color="#f40">metaKey</font>“，Boolean 型可选，默认为false，标明是否同时按下 meta 键。</li>
+<li>“<font color="#f40">button</font>“，short 型可选，默认为 0，描述了当事件发生时，哪个按键被按下或释放：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>主按键被按下（通常为左键）或未初始化</td>
+</tr>
+<tr>
+<td>1</td>
+<td>辅助按键被按下 (通常为中键)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>次按键被按下 (通常为右键)</td>
+</tr>
+</tbody></table>
+<ul>
+<li>“<font color="#f40">buttons</font>“，无符号 short 型可选，默认为 0，描述了当事件发生时哪些按键被按下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>位域值（Bit-field value）</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>无按键被按下</td>
+</tr>
+<tr>
+<td>1</td>
+<td>主按键被按下 (通常为左键)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>次按键被按下 (通常为右键)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>辅助按键被按下 (通常为中键)</td>
+</tr>
+</tbody></table>
+<ul>
+<li>“<font color="#f40">relatedTarget</font>“，EventTarget 型可选，默认为 null，若事件为 mouseenter 或 mouseover，则表示刚离开的元素；若事件为 mouseout 或 mouseleave，则表示刚进入的元素。</li>
+<li>“<font color="#f40">region</font>“，DOMString 型可选，默认为null，标明点击事件影响的区域 DOM 的 id。不影响任何区域的话，请传null值。</li>
+</ul>
+<h2 id="功能：-1"><a href="#功能：-1" class="headerlink" title="功能："></a>功能：</h2><p>构造器创建一个 MouseEvent。<br>MouseEvent接口 指<font color="#f40">鼠标事件</font>。使用此接口的<font color="#f40">常见事件</font>包括：<font color="#f40">click</font>，<font color="#f40">dblclick</font>，<font color="#f40">mouseup</font>，<font color="#f40">mousedown</font>。</p>
+<h1 id="四、实现模拟点击"><a href="#四、实现模拟点击" class="headerlink" title="四、实现模拟点击"></a>四、实现模拟点击</h1><p>将上述的Document.elementFromPoint()和MouseEvent()结合使用。<br>例子：<br>相当于一开始加载就点击过了对应坐标的元素。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// html</span></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;p id=<span class="string">"para1"</span>&gt;Some text here&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button&gt;blue&lt;/</span>button&gt;</span><br><span class="line">    &lt;button&gt;red&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">//js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">click</span>(<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 创建了一个点击事件</span></span><br><span class="line">  <span class="keyword">let</span> event = <span class="keyword">new</span> MouseEvent(<span class="string">"click"</span>,&#123;</span><br><span class="line">    bubbles: <span class="literal">true</span>,  <span class="comment">// 事件冒泡：true为允许;false为不允许</span></span><br><span class="line">    cancelable: <span class="literal">true</span>, <span class="comment">// 默认事件：true为允许;false为不允许</span></span><br><span class="line">    view: <span class="built_in">window</span>, </span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 获取改坐标的元素</span></span><br><span class="line">  <span class="keyword">let</span> el = <span class="built_in">document</span>.elementFromPoint(x,y);</span><br><span class="line">  <span class="comment">// 设置元素点击事件触发打印innerText的内容</span></span><br><span class="line">  el.onclick=<span class="function">(<span class="params">e</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e.target.innerText)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 为该元素派发事件</span></span><br><span class="line">  el.dispatchEvent(event);</span><br><span class="line">&#125;</span><br><span class="line">click(<span class="number">69</span>, <span class="number">61</span>);</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/2020/05/12/js%E4%B8%AD%E7%94%A8x%EF%BC%8Cy%E5%9D%90%E6%A0%87%E6%9D%A5%E5%AE%9E%E7%8E%B0%E6%A8%A1%E6%8B%9F%E7%82%B9%E5%87%BB%E5%8A%9F%E8%83%BD/2.png" alt="2.png"></p>
+<blockquote>
+<p>推荐一篇关于<font color="#f40">js原生创建模拟事件和自定义事件的方法</font>博客链接<br><a href="https://www.cnblogs.com/libin-1/p/5944334.html" target="_blank" rel="noopener">https://www.cnblogs.com/libin-1/p/5944334.html</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>querySelectorAll和getElementsByClassName的区别</title>
+    <url>/2020/05/07/querySelectorAll%E5%92%8CgetElementsByClassName%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p>一直以为querySelectorAll()系列除了兼容性以外其他方面都能完胜getElementsByClassName()系列，最近才发现我还是太年轻了。</p>
+<h1 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h1><p>querySelectorAll()和querySelector()有个比较容易忽略的缺点就是<font color="#f40">获取出来的元素及元素数组是静态的</font>；<br>但是getElementsByClassName(）和getElementsByTagName()<font color="#f40">获取出来的元素及元素数组是动态的</font><br>静态的就是说它<font color="#f40">不会随着 dom 操作而改变</font>，动态的 <font color="#f40">dom 变了也会跟着变</font>。</p>
+<a id="more"></a>
+<h1 id="举个例子就明白了："><a href="#举个例子就明白了：" class="headerlink" title="举个例子就明白了："></a>举个例子就明白了：</h1><p>先让id为parent的元素中的class为child的元素获取出来，打印一下此时的child获取的数组；<br>再修改一下parent中的元素，改成了a标签但是class仍是child，再次打印一下此时的child获取的数组。</p>
+<ol>
+<li><p>用querySelectorAll()来测试：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// html</span></span><br><span class="line">&lt;div id=<span class="string">"parent"</span>&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"child"</span>&gt;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div class="child"&gt;&lt;/</span>div&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"child"</span>&gt;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line"><span class="comment">// js</span></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="keyword">let</span> parent = <span class="built_in">document</span>.querySelector(<span class="string">"#parent"</span>);</span><br><span class="line">    <span class="keyword">let</span> children = parent.querySelectorAll(<span class="string">".child"</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(children);</span><br><span class="line">    parent.innerHTML=<span class="string">"&lt;a class='child'&gt;&lt;/a&gt;&lt;a class='child'&gt;&lt;/a&gt;"</span></span><br><span class="line">    <span class="built_in">console</span>.log(children);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/2020/05/07/querySelectorAll%E5%92%8CgetElementsByClassName%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="1.png"></p>
+</li>
+<li><p>用getElementsByClassName()来做测试：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> parent = <span class="built_in">document</span>.querySelector(<span class="string">"#parent"</span>);</span><br><span class="line"><span class="keyword">let</span> children = parent.getElementsByClassName(<span class="string">"child"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(children);</span><br><span class="line">parent.innerHTML=<span class="string">"&lt;a class='child'&gt;&lt;/a&gt;&lt;a class='child'&gt;&lt;/a&gt;"</span></span><br><span class="line"><span class="built_in">console</span>.log(children);</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/2020/05/07/querySelectorAll%E5%92%8CgetElementsByClassName%E7%9A%84%E5%8C%BA%E5%88%AB/2.png" alt="2.png"></p>
+</li>
+</ol>
+<p>这样区别就一目了然了吧。<font color="#f40">getElementsByTagName()也是具有动态获取元素的功能的</font>。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React使用ref操作dom</title>
+    <url>/2020/05/05/React%E4%BD%BF%E7%94%A8ref%E6%93%8D%E4%BD%9Cdom/</url>
+    <content><![CDATA[<h1 id="第一种（不推荐）"><a href="#第一种（不推荐）" class="headerlink" title="第一种（不推荐）"></a>第一种（不推荐）</h1><p>用法：<font color="#f40">ref=”名字”</font><br>例子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">componentDidMount() &#123;</span><br><span class="line">   <span class="keyword">this</span>.refs.dom.style.width = <span class="string">"100px"</span>;</span><br><span class="line">   <span class="keyword">this</span>.refs.dom.style.height = <span class="string">"100px"</span>;</span><br><span class="line">   <span class="keyword">this</span>.refs.dom.style.backgroundColor = <span class="string">"red"</span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> render() &#123;</span><br><span class="line">   <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">"dom"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>  运行效果图：<br>  <a id="more"></a><br>  <img src="/2020/05/05/React%E4%BD%BF%E7%94%A8ref%E6%93%8D%E4%BD%9Cdom/1.png" alt="1.png"><br>  会有一个警告（意思是不推荐这种方法）：</p>
+<blockquote>
+<p>Warning: A string ref, “dom”, has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead.</p>
+</blockquote>
+<h1 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h1><p>用法：<font color="#f40">ref={(dom)=&gt;this.mode = dom}</font><br>例子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">componentDidMount() &#123;</span><br><span class="line">  <span class="keyword">this</span>.mode.style.width = <span class="string">"100px"</span>;</span><br><span class="line">  <span class="keyword">this</span>.mode.style.height = <span class="string">"100px"</span>;</span><br><span class="line">  <span class="keyword">this</span>.mode.style.backgroundColor = <span class="string">"red"</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">&lt;div ref=&#123;(dom</span>)=&gt;</span><span class="keyword">this</span>.mode = dom&#125;&gt;&lt;<span class="regexp">/div&gt;)</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>运行效果：<br><img src="/2020/05/05/React%E4%BD%BF%E7%94%A8ref%E6%93%8D%E4%BD%9Cdom/2.png" alt="2.png"></p>
+<h1 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h1><p>父组件操作子组件的dom元素<br><font color="#f40">父组件给子组件传参this：scope={this}</font></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyDiv</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">&lt;div ref=&#123;(dom</span>)=&gt;</span>&#123;props.scope.myDiv=dom&#125;&#125;&gt;&lt;<span class="regexp">/div&gt;)</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">class Test extends React.Component &#123;</span></span><br><span class="line"><span class="regexp">  componentDidMount() &#123;</span></span><br><span class="line"><span class="regexp">    this.myDiv.style.width ="100px";</span></span><br><span class="line"><span class="regexp">    this.myDiv.style.height ="100px";</span></span><br><span class="line"><span class="regexp">    this.myDiv.style.backgroundColor ="red";</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  render() &#123;</span></span><br><span class="line"><span class="regexp">    return (&lt;MyDiv scope=&#123;this&#125; /</span>&gt;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果图：<br>和上面的例子的效果是一样的。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Express处理前端动态请求（/:id）</title>
+    <url>/2020/04/29/Express%E5%A4%84%E7%90%86%E5%89%8D%E7%AB%AF%E5%8A%A8%E6%80%81%E8%AF%B7%E6%B1%82%EF%BC%88-id%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="一、app-get-、app-post"><a href="#一、app-get-、app-post" class="headerlink" title="一、app.get()、app.post()"></a>一、app.get()、app.post()</h1><p>配置客户端路由（请求地址）。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">app.post(&#39;&#x2F;get_json&#x2F;:id&#39;, function (req, res) &#123;</span><br><span class="line">  &#x2F;&#x2F; 响应块代码</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里配置了一个POST请求的地址。将app.post()改成app.get()也是可以的，只是请求类型会变成get。</p>
+<a id="more"></a>
+
+<h1 id="2-req-params"><a href="#2-req-params" class="headerlink" title="2. req.params"></a>2. req.params</h1><p>一个对象，其包含了一系列的属性，这些属性和在路由中命名的参数名是一一对应的。例如，如果你有/user/<font color="#f40">:name</font>路由，name属性可通过<font color="#f40">req.params.name的方式获取到</font>，这个对象默认值为{}。<br>例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;前端代码</span><br><span class="line">this.$axios(&#123;</span><br><span class="line">method:&quot;get&quot;,</span><br><span class="line">url:&#96;http:&#x2F;&#x2F;localhost:3333&#x2F;aabbb&#96;</span><br><span class="line">&#125;).then(res&#x3D;&gt;&#123;</span><br><span class="line">console.log(res)</span><br><span class="line">&#125;).catch(err&#x3D;&gt;&#123;</span><br><span class="line">console.log(err)</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F;后端代码</span><br><span class="line">app.use(&#39;&#x2F;:id&#39;,(req,res)&#x3D;&gt;&#123;</span><br><span class="line">    console.log(req.params)</span><br><span class="line">    res.send(&#39;ok&#39;)  </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>运行结果<br><img src="/2020/04/29/Express%E5%A4%84%E7%90%86%E5%89%8D%E7%AB%AF%E5%8A%A8%E6%80%81%E8%AF%B7%E6%B1%82%EF%BC%88-id%EF%BC%89/1.png" alt="1.png"></p>
+<p>或者也可以这样写（只是修改了后端代码）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;后端代码</span><br><span class="line">app.use(&#39;&#x2F;aa:id&#39;,(req,res)&#x3D;&gt;&#123;</span><br><span class="line">    console.log(req.params)</span><br><span class="line">    res.send(&#39;ok&#39;)  </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>运行结果<br><img src="/2020/04/29/Express%E5%A4%84%E7%90%86%E5%89%8D%E7%AB%AF%E5%8A%A8%E6%80%81%E8%AF%B7%E6%B1%82%EF%BC%88-id%EF%BC%89/2.png" alt="2.png"></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>express</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue的路由复用和导航守卫</title>
+    <url>/2020/04/21/vue%E7%9A%84%E8%B7%AF%E7%94%B1%E5%A4%8D%E7%94%A8%E5%92%8C%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB/</url>
+    <content><![CDATA[<h1 id="一、路由复用"><a href="#一、路由复用" class="headerlink" title="一、路由复用"></a>一、路由复用</h1><p>路由复用要在相对应的路由中添加的是在<font color="#f40">components</font>里面，不是children。<br>例如：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    path: <span class="string">"/"</span>,</span><br><span class="line">    name: <span class="string">"Home"</span>,</span><br><span class="line">    components: &#123; <span class="comment">//这里是components不是component</span></span><br><span class="line">      <span class="keyword">default</span>: Home,</span><br><span class="line">      <span class="string">"Delivery"</span>: Delivery,</span><br><span class="line">      <span class="string">"History"</span>: History,</span><br><span class="line">      <span class="string">"OrderingGuide"</span>: OrderingGuide</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>App组件部分</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;el-row <span class="class"><span class="keyword">class</span></span>=<span class="string">"main"</span>&gt;</span><br><span class="line">&lt;router-view&gt;&lt;<span class="regexp">/router-view&gt;    /</span><span class="regexp">/没有指定路由，当访问哪个路由显示哪个相对应的组件</span></span><br><span class="line"><span class="regexp">&lt;/</span>el-row&gt;</span><br><span class="line">&lt;el-row&gt;</span><br><span class="line">&lt;el-col :md=<span class="string">"8"</span>&gt;</span><br><span class="line">  &lt;router-view name=<span class="string">"Delivery"</span>&gt;&lt;<span class="regexp">/router-view&gt;  /</span><span class="regexp">/ 这三个有指定路由，会显示指定的组件</span></span><br><span class="line"><span class="regexp">&lt;/</span>el-col&gt;</span><br><span class="line">&lt;el-col :md=<span class="string">"8"</span>&gt;</span><br><span class="line">  &lt;router-view name=<span class="string">"History"</span>&gt;&lt;<span class="regexp">/router-view&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>el-col&gt;</span><br><span class="line">&lt;el-col :md=<span class="string">"8"</span>&gt;</span><br><span class="line">  &lt;router-view name=<span class="string">"OrderingGuide"</span>&gt;&lt;<span class="regexp">/router-view&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>el-col&gt;</span><br><span class="line">&lt;<span class="regexp">/el-row&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行结果图：<br><img src="/2020/04/21/vue%E7%9A%84%E8%B7%AF%E7%94%B1%E5%A4%8D%E7%94%A8%E5%92%8C%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB/0.png" alt="0.png"></p>
+<p><img src="/2020/04/21/vue%E7%9A%84%E8%B7%AF%E7%94%B1%E5%A4%8D%E7%94%A8%E5%92%8C%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB/1.png" alt="1.png"></p>
+<font color="#f40">
+    解释一下上面这个例子：
+    Home组件对应的路径是"/"，也就是根路径。App组件是首页组件，因为只有Home组件有components的配置的复用组件，所以只有在根路径才会显示那三个复用的路由组件。也就是上面运行结果表现出来的。
+</font>
+
+<h1 id="二、导航守卫"><a href="#二、导航守卫" class="headerlink" title="二、导航守卫"></a>二、导航守卫</h1><p>记住参数或查询的改变并不会触发进入/离开的导航守卫。你可以通过观察 $route 对象来应对这些变化，或使用 beforeRouteUpdate 的组件内守卫。</p>
+<h2 id="（1）全局前置守卫"><a href="#（1）全局前置守卫" class="headerlink" title="（1）全局前置守卫"></a>（1）全局前置守卫</h2><p>你可以使用 router.beforeEach 注册一个全局前置守卫：<br><font color="#f40">在配置完router后面注册router.beforeEach。</font></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123; ... &#125;)</span><br><span class="line"></span><br><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>当一个导航触发时，全局前置守卫按照创建顺序调用。守卫是异步解析执行，此时导航在所有守卫 resolve 完之前一直处于 等待中。<br>每个守卫方法接收三个参数：</p>
+<ul>
+<li>to: Route: 即将要进入的目标 路由对象</li>
+<li>from: Route: 当前导航正要离开的路由</li>
+<li>next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。<ul>
+<li>next(): <font color="#f40">进行管道中的下一个钩子</font>。如果全部钩子执行完了，则导航的状态就是 confirmed (确认的)。</li>
+<li>next(false): <font color="#f40">中断当前的导航</font>。如果浏览器的 URL 改变了 (可能是用户手动或者浏览器后退按钮)，那么 URL 地址会重置到 from 路由对应的地址。</li>
+<li>next(‘/‘) 或者 next({ path: ‘/‘ }): <font color="#f40">跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航</font>。你可以向 next 传递任意位置对象，且<font color="#f40">允许设置诸如 replace: true、name: ‘home’ 之类的选项以及任何用在 router-link 的 to prop 或 router.push 中的选项</font>。</li>
+<li>next(error):  如果传入 next 的参数是一个 Error 实例，则导航会被终止且该错误会被传递给 router.onError() 注册过的回调。<br>确保要调用 next 方法，否则钩子就不会被 resolved。</li>
+</ul>
+</li>
+</ul>
+<h2 id="（2）全局后置钩子"><a href="#（2）全局后置钩子" class="headerlink" title="（2）全局后置钩子"></a>（2）全局后置钩子</h2><p>你也可以注册全局后置钩子，然而和守卫不同的是，这些钩子<font color="#f40">不会接受 next 函数也不会改变导航本身</font>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">router.afterEach(<span class="function">(<span class="params">to, <span class="keyword">from</span></span>) =&gt;</span> &#123;   <span class="comment">// 没有next参数</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="（3）路由独享的守卫"><a href="#（3）路由独享的守卫" class="headerlink" title="（3）路由独享的守卫"></a>（3）路由独享的守卫</h2><p>你可以在<font color="#f40">路由配置上直接定义</font> beforeEnter 守卫：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/foo'</span>,</span><br><span class="line">      component: Foo,</span><br><span class="line">      beforeEnter: <span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这些守卫与全局前置守卫的方法参数是一样的。</p>
+<h2 id="（4）组件内的守卫"><a href="#（4）组件内的守卫" class="headerlink" title="（4）组件内的守卫"></a>（4）组件内的守卫</h2><p>最后，你可以在路由组件内直接定义以下路由导航守卫：</p>
+<ul>
+<li>beforeRouteEnter</li>
+<li>beforeRouteUpdate (2.2 新增)</li>
+<li>beforeRouteLeave<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = &#123;</span><br><span class="line">  template: <span class="string">`...`</span>,</span><br><span class="line">  beforeRouteEnter (to, <span class="keyword">from</span>, next) &#123;</span><br><span class="line">    <span class="comment">// 在渲染该组件的对应路由被 confirm 前调用</span></span><br><span class="line">    <span class="comment">// 不！能！获取组件实例 `this`</span></span><br><span class="line">    <span class="comment">// 因为当守卫执行前，组件实例还没被创建</span></span><br><span class="line">  &#125;,</span><br><span class="line">  beforeRouteUpdate (to, <span class="keyword">from</span>, next) &#123;</span><br><span class="line">    <span class="comment">// 在当前路由改变，但是该组件被复用时调用</span></span><br><span class="line">    <span class="comment">// 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，</span></span><br><span class="line">    <span class="comment">// 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。</span></span><br><span class="line">    <span class="comment">// 可以访问组件实例 `this`</span></span><br><span class="line">  &#125;,</span><br><span class="line">  beforeRouteLeave (to, <span class="keyword">from</span>, next) &#123;</span><br><span class="line">    <span class="comment">// 导航离开该组件的对应路由时调用</span></span><br><span class="line">    <span class="comment">// 可以访问组件实例 `this`</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">beforeRouteEnter 守卫 不能 访问 <span class="keyword">this</span>，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。</span><br><span class="line">不过，你可以通过传一个回调给 next来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。</span><br><span class="line">beforeRouteEnter (to, <span class="keyword">from</span>, next) &#123;</span><br><span class="line">  next(<span class="function"><span class="params">vm</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 通过 `vm` 访问组件实例</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+注意<br><font color="#f40">beforeRouteEnter 是支持给 next 传递回调的唯一守卫</font>。对于 <font color="#f40">beforeRouteUpdate 和 beforeRouteLeave</font> 来说，<font color="#f40">this 已经可用了</font>，所以不支持传递回调，因为没有必要了。<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">beforeRouteUpdate (to, <span class="keyword">from</span>, next) &#123;</span><br><span class="line">  <span class="comment">// just use `this`</span></span><br><span class="line">  <span class="keyword">this</span>.name = to.params.name</span><br><span class="line">  next()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+这个离开守卫通常用来禁止用户在还未保存修改前突然离开。该导航可以通过 <font color="#f40">next(false)</font> 来取消。<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">beforeRouteLeave (to, <span class="keyword">from</span>, next) &#123;</span><br><span class="line">  <span class="keyword">const</span> answer = <span class="built_in">window</span>.confirm(<span class="string">'Do you really want to leave? you have unsaved changes!'</span>)</span><br><span class="line">  <span class="keyword">if</span> (answer) &#123;</span><br><span class="line">    next()</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    next(<span class="literal">false</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="（5）完整的导航解析流程"><a href="#（5）完整的导航解析流程" class="headerlink" title="（5）完整的导航解析流程"></a>（5）完整的导航解析流程</h2><ol>
+<li>导航被触发。</li>
+<li>在失活的组件里调用离开守卫。</li>
+<li>调用全局的 <font color="#f40">beforeEach</font> 守卫。</li>
+<li>在重用的组件里调用 <font color="#f40">beforeRouteUpdate</font> 守卫 (2.2+)。</li>
+<li>在路由配置里调用 <font color="#f40">beforeEnter</font>。</li>
+<li>解析异步路由组件。</li>
+<li>在被激活的组件里调用 <font color="#f40">beforeRouteEnter</font>。</li>
+<li>调用全局的 <font color="#f40">beforeResolve</font> 守卫 (2.5+)。</li>
+<li>导航被确认。</li>
+<li>调用全局的 <font color="#f40">afterEach</font> 钩子。     </li>
+<li>用创建好的实例调用 beforeRouteEnter 守卫中传给 <font color="#f40">next</font> 的回调函数。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue中的filters过滤器</title>
+    <url>/2020/04/17/vue%E4%B8%AD%E7%9A%84filters%E8%BF%87%E6%BB%A4%E5%99%A8/</url>
+    <content><![CDATA[<p><font color="#f40"></font><br><font color="#f40">Vue2.0以后内置过滤器都去掉了，要用filters只能自定义写。</font></p>
+<h1 id="一、自定义filters过滤器"><a href="#一、自定义filters过滤器" class="headerlink" title="一、自定义filters过滤器"></a>一、自定义filters过滤器</h1><p>过滤器函数始终以<font color="#f40">表达式的值</font>作为<font color="#f40">第一个参数</font>。带引号的参数视为字符串，而不带引号的参数按表达式计算 </p>
+<a id="more"></a>
+<h1 id="二、局部定义的fliters"><a href="#二、局部定义的fliters" class="headerlink" title="二、局部定义的fliters"></a>二、局部定义的fliters</h1><p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">    &#123;&#123; message | toUpperCase&#125;&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;.&#x2F;vue.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const vm &#x3D; new Vue(&#123;</span><br><span class="line">        el: &#39;#app&#39;,</span><br><span class="line">        data:&#123;</span><br><span class="line">            message:&#39;hello world&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">        filters:&#123;</span><br><span class="line">            toUpperCase(val)&#123;</span><br><span class="line">                return val.toString().toUpperCase();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>运行结果图:<br><img src="/2020/04/17/vue%E4%B8%AD%E7%9A%84filters%E8%BF%87%E6%BB%A4%E5%99%A8/0.png" alt="0"></p>
+<h1 id="三、可以设置多个过滤器"><a href="#三、可以设置多个过滤器" class="headerlink" title="三、可以设置多个过滤器"></a>三、可以设置多个过滤器</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">    &#123;&#123; message | toUpperCase | changeColor&#125;&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;.&#x2F;vue.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const vm &#x3D; new Vue(&#123;</span><br><span class="line">        el: &#39;#app&#39;,</span><br><span class="line">        data:&#123;</span><br><span class="line">            message:&#39;hello world&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">        filters:&#123;</span><br><span class="line">            toUpperCase(val)&#123;</span><br><span class="line">                return val.toString().toUpperCase();</span><br><span class="line">            &#125;,</span><br><span class="line">            changeColor(val)&#123;</span><br><span class="line">                return val.toString().replace(&#39;HELLO&#39;,&#39;hello&#39;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>运行结果图:<br><img src="/2020/04/17/vue%E4%B8%AD%E7%9A%84filters%E8%BF%87%E6%BB%A4%E5%99%A8/1.png" alt="1"></p>
+<h1 id="四、全局定义的filter"><a href="#四、全局定义的filter" class="headerlink" title="四、全局定义的filter"></a>四、全局定义的filter</h1><h2 id="1：在main-js里定义"><a href="#1：在main-js里定义" class="headerlink" title="1：在main.js里定义:"></a>1：在main.js里定义:</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Vue.filter(&quot;定义的过滤器名字&quot;, function(val) &#123;</span><br><span class="line">  return val + &quot;aa&quot;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-在需要处理数据的地方调用自定义过滤器"><a href="#2-在需要处理数据的地方调用自定义过滤器" class="headerlink" title="2:在需要处理数据的地方调用自定义过滤器"></a>2:在需要处理数据的地方调用自定义过滤器</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#123;msg|自定义的过滤器名字&#125;&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue项目实现github-pages的预览</title>
+    <url>/2020/04/13/vue%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0github-pages%E7%9A%84%E9%A2%84%E8%A7%88/</url>
+    <content><![CDATA[<h1 id="1、打包vue-项目"><a href="#1、打包vue-项目" class="headerlink" title="1、打包vue 项目"></a>1、打包vue 项目</h1><p>vue项目：<br>现在github上传建一个github.io仓库，例如xxx.github.io，并再创建一个gh-pages分支。  </p>
+<p>在本地先把本地仓库上传到远程仓库的master分支。</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin 远程仓库地址</span><br><span class="line">git add .</span><br><span class="line">git commit -m&quot;&quot;</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>再在命令行输入打包命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<p>，生成了dist文件夹：<br>打包完成。  </p>
+<h2 id="1-1、打包常见问题1——项目资源无法加载"><a href="#1-1、打包常见问题1——项目资源无法加载" class="headerlink" title="1.1、打包常见问题1——项目资源无法加载"></a>1.1、打包常见问题1——项目资源无法加载</h2><p>打开刚刚打包好的dist文件夹，浏览器打开index.html  </p>
+<p>发现该页面是空白的，打开控制台发现  </p>
+<p>这里看到index.html文件中<font color="#f40">没有加载任何css、js文件</font>。</p>
+<h2 id="1-2、解决方法——修改config文件"><a href="#1-2、解决方法——修改config文件" class="headerlink" title="1.2、解决方法——修改config文件"></a>1.2、解决方法——修改config文件</h2><p>打开项目根目录vue.config.js文件，进行如下修改：<br>即将</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">assetsPublicPath: &#39;&#x2F;&#39;</span><br></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">assetsPublicPath: &#39;.&#x2F;&#39;</span><br></pre></td></tr></table></figure>
+<p>重新</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<h2 id="1-3、打包常见问题2——字体图标无法加载"><a href="#1-3、打包常见问题2——字体图标无法加载" class="headerlink" title="1.3、打包常见问题2——字体图标无法加载"></a>1.3、打包常见问题2——字体图标无法加载</h2><p>字体和图标不能正常显示</p>
+<p>解决方法——修改build文件</p>
+<p>打开根目录下build中的utils.js文件，在控制build样式文件代码中添加　publicPath: ‘../../‘，</p>
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">publicPath: &#39;..&#x2F;..&#x2F;&#39;</span><br></pre></td></tr></table></figure>
+<p>重新</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h1 id="2、上传vue-项目并预览"><a href="#2、上传vue-项目并预览" class="headerlink" title="2、上传vue 项目并预览"></a>2、上传vue 项目并预览</h1><p>在dist文件目录下，创建另一个本地仓库，上传到远程仓库的gh-pages分支。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin 远程仓库地址</span><br><span class="line">git add .</span><br><span class="line">git commit -m&quot;&quot;</span><br><span class="line">git push -u origin master:gh-pages</span><br></pre></td></tr></table></figure>
+
+<h1 id="3、其他问题"><a href="#3、其他问题" class="headerlink" title="3、其他问题"></a>3、其他问题</h1><ol>
+<li><p>用mock模拟数据，无法使用。解决方案：创建一个.json文件把数据写死，然后引用这个文件。</p>
+</li>
+<li><p>对于使用Vue-cli3.0构建的项目出现的样式失效问题，解决方案：在vue.config.js中设置baseUrl: ‘/staff/‘。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js正则表达式中的indexOf和search的区别，exec与match的区别说明</title>
+    <url>/2020/04/12/js%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%AD%E7%9A%84indexOf%E5%92%8Csearch%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Cexec%E4%B8%8Ematch%E7%9A%84%E5%8C%BA%E5%88%AB%E8%AF%B4%E6%98%8E/</url>
+    <content><![CDATA[<h1 id="indexOf和search的区别"><a href="#indexOf和search的区别" class="headerlink" title="indexOf和search的区别"></a>indexOf和search的区别</h1><p>search和indexOf的作用都是匹配出符合条件的字符串的索引位置，区别是search能用正则表达式匹配</p>
+<a id="more"></a>
+<h1 id="exec与match的区别"><a href="#exec与match的区别" class="headerlink" title="exec与match的区别"></a>exec与match的区别</h1><ol>
+<li><p>当正则表达式<font color="#f40">无子表达式</font>，并且定义为<font color="#f40">非全局匹配</font>时，exec和match执行的<font color="#f40">结果是一样</font>，均返回第一个匹配的字符串内容 ,如下边的第1种情况；</p>
+</li>
+<li><p>当正则表达式<font color="#f40">无子表达式</font>，并且定义为<font color="#f40">全局匹配</font>时，exec和match执行，做存在多处匹配内容，则match返回的是<font color="#f40">多个元素数组</font>，而<font color="#f40">exec只会找到一个匹配的即返回</font>,如下边的第2种情况；</p>
+</li>
+<li><p>当正则表达式<font color="#f40">有子表达式</font>时，并且定义为<font color="#f40">非全局匹配</font>，exec和match执行的<font color="#f40">结果是一样</font>如下边的第3种情况；</p>
+</li>
+<li><p>当正则表达式<font color="#f40">有子表达式</font>时，并且定义为<font color="#f40">全局匹配</font>，exec和match执行的<font color="#f40">结果不一样</font>，此时<font color="#f40">match将忽略子表达式，只查找全匹配正则表达式并返回所有内容</font>，如下第4种情况；</p>
+</li>
+</ol>
+<p>也就说，<font color="#f40">exec与全局是否定义无关系，而match则于全局相关联，当定义为非全局，两者执行结果相同<br></font></p>
+<p>第1种情况</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"abc"</span>) ; </span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"3abc4,5abc6"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));    <span class="comment">//abc</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));   <span class="comment">//abc</span></span><br></pre></td></tr></table></figure>
+
+<p>第2种情况</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"abc"</span>,<span class="string">"g"</span>) ; </span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"3abc4,5abc6"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));<span class="comment">//["abc", index: 1, input: "3abc4,5abc6", groups: undefined]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));<span class="comment">//["abc", "abc"]</span></span><br></pre></td></tr></table></figure>
+<p>效果图：<br><img src="/2020/04/12/js%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%AD%E7%9A%84indexOf%E5%92%8Csearch%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Cexec%E4%B8%8Ematch%E7%9A%84%E5%8C%BA%E5%88%AB%E8%AF%B4%E6%98%8E/0.png" alt></p>
+<p>第3种情况</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"a(bc)"</span>) ; </span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"3abc4,5abc6"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));<span class="comment">//abc,bc</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));<span class="comment">//abc,bc</span></span><br></pre></td></tr></table></figure>
+<p>效果图：<br><img src="/2020/04/12/js%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%AD%E7%9A%84indexOf%E5%92%8Csearch%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Cexec%E4%B8%8Ematch%E7%9A%84%E5%8C%BA%E5%88%AB%E8%AF%B4%E6%98%8E/1.png" alt></p>
+<p>第4种情况</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"a(bc)"</span>,<span class="string">"g"</span>) ; </span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"3abc4,5abc6"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));<span class="comment">//abc,bc</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));<span class="comment">//abc,abc</span></span><br></pre></td></tr></table></figure>
+<p>效果图<br><img src="/2020/04/12/js%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%AD%E7%9A%84indexOf%E5%92%8Csearch%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Cexec%E4%B8%8Ematch%E7%9A%84%E5%8C%BA%E5%88%AB%E8%AF%B4%E6%98%8E/2.png" alt></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue解决子组件改变父组件传入props的值警告问题</title>
+    <url>/2020/04/07/vue%E8%A7%A3%E5%86%B3%E5%AD%90%E7%BB%84%E4%BB%B6%E6%94%B9%E5%8F%98%E7%88%B6%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%85%A5props%E7%9A%84%E5%80%BC%E8%AD%A6%E5%91%8A%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>子组件想要改变父组件传入的值（props） </p>
+<p>例子：<br>点击按钮，改变数据</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 父组件代码</span><br><span class="line">&lt;hello-world :msg&#x3D;&quot;str&quot;&gt;&lt;&#x2F;hello-world&gt;</span><br><span class="line">data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">        str:&quot;啦啦啦&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">    </span><br><span class="line">&#x2F;&#x2F;子组件代码</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;hello&quot;&gt;</span><br><span class="line">    &lt;button @click&#x3D;&quot;change&quot;&gt;改变&lt;&#x2F;button&gt;&#123;&#123; msg &#125;&#125;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;HelloWorld&#39;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    msg: String</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    change()&#123;</span><br><span class="line">      this.msg&#x3D;&quot;已改变&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>运行结果<br><font color="#f40">值确实改变了，但是会有警告</font><br><img src="/2020/04/07/vue%E8%A7%A3%E5%86%B3%E5%AD%90%E7%BB%84%E4%BB%B6%E6%94%B9%E5%8F%98%E7%88%B6%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%85%A5props%E7%9A%84%E5%80%BC%E8%AD%A6%E5%91%8A%E9%97%AE%E9%A2%98/0.png" alt></p>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>vue父组件props传值子组件是<font color="#f40">单向数据</font>的，子组件改变props值的话，父组件监听不到的。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>用<font color="#f40">$emit</font>自定义事件来告诉父组件变化<br>先用子组件定义事件，父组件去监听，子组件一触发父组件就能监听到。<br>改后的代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 父组件 监听子组件自定义的change-props事件</span><br><span class="line"> &lt;hello-world :msg&#x3D;&quot;str&quot; @change-props&#x3D;&quot;changeLate&quot;&gt;&lt;&#x2F;hello-world&gt;</span><br><span class="line">  data()&#123;</span><br><span class="line">        return&#123;</span><br><span class="line">            str:&quot;啦啦啦&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      changeLate(data) &#123;</span><br><span class="line">        this.str &#x3D; data;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 子组件  改变props值时，自定义change-props事件，把要改变成的数据传入事件中</span><br><span class="line">&lt;button @click&#x3D;&quot;change&quot;&gt;改变&lt;&#x2F;button&gt;&#123;&#123; msg &#125;&#125;</span><br><span class="line">  &lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name: &#39;HelloWorld&#39;,</span><br><span class="line">    props: &#123;</span><br><span class="line">      msg: String</span><br><span class="line">    &#125;,</span><br><span class="line">    methods:&#123;</span><br><span class="line">      change()&#123;</span><br><span class="line">        let late&#x3D;&quot;已改变&quot;;</span><br><span class="line">        this.$emit(&quot;change-props&quot;,late); &#x2F;&#x2F;自定义事件</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果<br>完美解决<br><img src="/2020/04/07/vue%E8%A7%A3%E5%86%B3%E5%AD%90%E7%BB%84%E4%BB%B6%E6%94%B9%E5%8F%98%E7%88%B6%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%85%A5props%E7%9A%84%E5%80%BC%E8%AD%A6%E5%91%8A%E9%97%AE%E9%A2%98/1.png" alt></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>express中req.session显示undefined的解决方案</title>
+    <url>/2020/04/01/express%E4%B8%ADreq-session%E6%98%BE%E7%A4%BAundefined%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<h1 id="先看一下源码"><a href="#先看一下源码" class="headerlink" title="先看一下源码"></a>先看一下源码</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建路由</span></span><br><span class="line">  <span class="keyword">const</span> router = express.Router();</span><br><span class="line">  app.use(<span class="string">"/api"</span>, router);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建session</span></span><br><span class="line">  <span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">'express-session'</span>);</span><br><span class="line">  app.use(session(&#123;</span><br><span class="line">      secret: <span class="string">'dfafadfadfa'</span>, <span class="comment">//秘钥</span></span><br><span class="line">      resave: <span class="literal">true</span>,          <span class="comment">//即使 session 没有被修改，也保存 session 值，默认为 true。</span></span><br><span class="line">      saveUninitialized: <span class="literal">true</span>,<span class="comment">//无论有没有session cookie，每次请求都设置个session cookie ，默认给个标示为 connect.sid</span></span><br><span class="line">      cookie: (<span class="string">'name'</span>, <span class="string">'value'</span>, &#123; <span class="attr">secure</span>: <span class="literal">false</span> &#125;)<span class="comment">//当 secure 值为 true 时，cookie 在 HTTP 中是无效，在 HTTPS 中才有效。</span></span><br><span class="line">  &#125;))</span><br><span class="line">  </span><br><span class="line">  router.use(<span class="string">"/aaa"</span>,(req,res)=&gt;&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(req.session)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p>结果当访问到api/aaa地址时，node打印出来的是undefined</p>
+<a id="more"></a>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>是因为路由写在了session上面导致的。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>把session写在路由上面即可<br>正确代码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建session</span></span><br><span class="line">    <span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">'express-session'</span>);</span><br><span class="line">    app.use(session(&#123;</span><br><span class="line">        secret: <span class="string">'dfafadfadfa'</span>, <span class="comment">//秘钥</span></span><br><span class="line">        resave: <span class="literal">true</span>,          <span class="comment">//即使 session 没有被修改，也保存 session 值，默认为 true。</span></span><br><span class="line">        saveUninitialized: <span class="literal">true</span>,<span class="comment">//无论有没有session cookie，每次请求都设置个session cookie ，默认给个标示为 connect.sid</span></span><br><span class="line">        cookie: (<span class="string">'name'</span>, <span class="string">'value'</span>, &#123; <span class="attr">secure</span>: <span class="literal">false</span> &#125;)<span class="comment">//当 secure 值为 true 时，cookie 在 HTTP 中是无效，在 HTTPS 中才有效。</span></span><br><span class="line">    &#125;))</span><br><span class="line">    </span><br><span class="line">      <span class="comment">// 创建路由</span></span><br><span class="line">    <span class="keyword">const</span> router = express.Router();</span><br><span class="line">    app.use(<span class="string">"/api"</span>, router);</span><br><span class="line">    </span><br><span class="line">        router.use(<span class="string">"/aaa"</span>,(req,res)=&gt;&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(req.session)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>express</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS 中cookie 、cookie的js插件、Local Storage、Session Storage</title>
+    <url>/2020/03/28/JS%20%E4%B8%ADcookie%20%E3%80%81cookie%E7%9A%84js%E6%8F%92%E4%BB%B6%E3%80%81Local%20Storage%E3%80%81Session%20Storage/</url>
+    <content><![CDATA[<h1 id="cookie、Local-Storage、Session-Storage-定义"><a href="#cookie、Local-Storage、Session-Storage-定义" class="headerlink" title="cookie、Local Storage、Session Storage 定义"></a>cookie、Local Storage、Session Storage 定义</h1><p><font color="#f40">Cookie（局限性）</font>：用户可以禁用cookie，<font color="#f40">最多只能存储4kb</font>，cookie有过期时间的（一般我们设置的时间最长1个月，<font color="#f40">用户使用杀毒软件也可以清除我们的cookie</font>），cookie还需要指定作用域，不可以跨域调用。</p>
+<p><font color="#f40">LocalStorage</font>：持久化存储到本地，没有过期时间，<font color="#f40">最大可存储5MB</font><br>都是采用的明文存储，我们在控制台（Resource）下可以看到存储的信息，所以本地存储都是不安全的（不要存储重要的信息，如果需要的话，我们需要对重要的信息进行严格的加密—md5加密）</p>
+<p><font color="#f40">WebStorage(localStorage(常用，sessionStorage))</font><br>由于我们的localStorage可以存储很多的数据，我们在项目中把不经常更新的数据进行存储，下一次打开页面，先把本地缓存的数据展示，减少对于服务器的请求压力—移动端的本地缓存。</p>
+<p><font color="#f40">sessionStorage</font>用于本地存储一个会话（session）中的数据，这些数据只有在同一个会话中的页面才能访问并且当会话结束后数据也随之销毁。因此sessionStorage不是一种持久化的本地存储，仅仅是会话级别的存储。</p>
+<a id="more"></a>
+<h1 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h1><p>Cookie 以名/值对形式存储，如下所示:<br>username=John Doe</p>
+<h2 id="使用-JavaScript-创建Cookie（增）"><a href="#使用-JavaScript-创建Cookie（增）" class="headerlink" title="使用 JavaScript 创建Cookie（增）"></a>使用 JavaScript 创建Cookie（增）</h2><p>JavaScript 中，<font color="#f40">创建 cookie</font> 如下所示：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie=<span class="string">"username=John Doe"</span>;</span><br></pre></td></tr></table></figure>
+<p><font color="#f40">设置cookie的生命周期</font>。默认情况下，cookie 在浏览器关闭时删除，<font color="#f40">可以用max-age单位是秒</font>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie=<span class="string">"username=John Doe; max-age=5"</span>;<span class="comment">//cookie生命周期为5秒</span></span><br></pre></td></tr></table></figure>
+<p>您可以使用<font color="#f40">path 参数告诉浏览器 cookie 的路径</font> 。默认情况下，cookie 属于当前页面。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie=<span class="string">"username=John Doe;max-age=5 ; path=/"</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-JavaScript-删除-Cookie-删"><a href="#使用-JavaScript-删除-Cookie-删" class="headerlink" title="使用 JavaScript 删除 Cookie(删)"></a>使用 JavaScript 删除 Cookie(删)</h2><p>删除 cookie 非常简单。您只需要设置 max-age 参数为0即可，如下所示，设置为 max-age=0;</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">"username=;max-age=0;"</span>;</span><br></pre></td></tr></table></figure>
+<p>注意，当您删除时不必指定 cookie 的值。</p>
+<h2 id="使用-JavaScript-修改-Cookie（改）"><a href="#使用-JavaScript-修改-Cookie（改）" class="headerlink" title="使用 JavaScript 修改 Cookie（改）"></a>使用 JavaScript 修改 Cookie（改）</h2><p>在 JavaScript 中，修改 cookie 类似于创建 cookie，如下所示：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie=<span class="string">"username=John Smith; path=/"</span>;</span><br></pre></td></tr></table></figure>
+<p>旧的 cookie 将被覆盖。</p>
+<h2 id="JavaScript-读取-Cookie（查）"><a href="#JavaScript-读取-Cookie（查）" class="headerlink" title="JavaScript 读取 Cookie（查）"></a>JavaScript 读取 Cookie（查）</h2><p>在 JavaScript 中, 可以使用以下代码来读取 cookie，<font color="#f40">以字符串的形式返回 ，每对的cookie值都是以；结尾的，可以截取用</font><br>有些浏览器不识别汉字需要编码<br><font color="#f40">encodeURIComponent()</font>    对汉字进行编码<br><font color="#f40">decodeURIComponent()</font>　  对编码的结果进行解码：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="built_in">document</span>.cookie;</span><br><span class="line"><span class="built_in">console</span>.log(x)</span><br></pre></td></tr></table></figure>
+<p>运行结果<br><img src="/2020/03/28/JS%20%E4%B8%ADcookie%20%E3%80%81cookie%E7%9A%84js%E6%8F%92%E4%BB%B6%E3%80%81Local%20Storage%E3%80%81Session%20Storage/1.png" alt></p>
+<p><img src="/2020/03/28/JS%20%E4%B8%ADcookie%20%E3%80%81cookie%E7%9A%84js%E6%8F%92%E4%BB%B6%E3%80%81Local%20Storage%E3%80%81Session%20Storage/2.png" alt></p>
+<h1 id="轻量级JS-Cookie插件js-cookie的使用方法"><a href="#轻量级JS-Cookie插件js-cookie的使用方法" class="headerlink" title="轻量级JS Cookie插件js-cookie的使用方法"></a>轻量级JS Cookie插件js-cookie的使用方法</h1><p>介绍：js-cookie插件是一个JS操作cookie的插件，源文件只有3.34 KB，非常轻量级。js-cookie也支持npm和Bower安装和管理。</p>
+<h2 id="引入js-cookie-js"><a href="#引入js-cookie-js" class="headerlink" title="引入js-cookie.js"></a>引入js-cookie.js</h2><ul>
+<li><p>直接引用cdn：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"</span>&gt;&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>本地下载下来后：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script src=<span class="string">"/path/to/js.cookie.js"</span>&gt;&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模块化开发时:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Cookies <span class="keyword">from</span> <span class="string">'js-cookie'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="js-cookie-js常用的API和方法"><a href="#js-cookie-js常用的API和方法" class="headerlink" title="js-cookie.js常用的API和方法"></a>js-cookie.js常用的API和方法</h2><ol>
+<li><p>设置cookie</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Cookies.set(<span class="string">'name'</span>, <span class="string">'value'</span>, &#123; max-age: <span class="number">7</span>, <span class="attr">path</span>: <span class="string">''</span> &#125;);<span class="comment">//7秒过期</span></span><br><span class="line">Cookies.set(<span class="string">'name'</span>, &#123; <span class="attr">foo</span>: <span class="string">'bar'</span> &#125;);<span class="comment">//设置一个json</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读取cookie</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Cookies.get(<span class="string">'name'</span>);<span class="comment">//获取cookie</span></span><br><span class="line">Cookies.get(); <span class="comment">//读取所有的cookie</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除cookie</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Cookies.remove(<span class="string">'name'</span>); <span class="comment">//删除cookie时必须是同一个路径。</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h1 id="localStorage和sessionStorage"><a href="#localStorage和sessionStorage" class="headerlink" title="localStorage和sessionStorage"></a>localStorage和sessionStorage</h1><p>localStorage和sessionStorage的语法是一样的</p>
+<p>// 保存数据到sessionStorage</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">sessionStorage.setItem(<span class="string">'key'</span>, <span class="string">'value'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>// 从sessionStorage获取数据</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> data = sessionStorage.getItem(<span class="string">'key'</span>);</span><br></pre></td></tr></table></figure>
+<p>也可以直接用sessionStorage.key</p>
+<p>// 从sessionStorage删除保存的数据</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">sessionStorage.removeItem(<span class="string">'key'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>// 从sessionStorage删除所有保存的数据</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">sessionStorage.clear();</span><br></pre></td></tr></table></figure>
+
+<p>注意：<br>往localStorage和sessionStorage传值的话，比如传对象或者数组的时候记得先把其转换成json对象，用JSON.stringify();获取值的时候再用<font color="#f40">JSON.parse()或者eval(“(“+ JSON+”)”)</font>等方法去解析JSON。<br>例子：<br><img src="/2020/03/28/JS%20%E4%B8%ADcookie%20%E3%80%81cookie%E7%9A%84js%E6%8F%92%E4%BB%B6%E3%80%81Local%20Storage%E3%80%81Session%20Storage/3.png" alt></p>
+<p>localStorage的语法和sessionStorage是一样的</p>
+<p>关于cookie、localStorage和sessionStorage的区别详细的讲解<br><a href="https://www.cnblogs.com/pengc/p/8714475.html" target="_blank" rel="noopener">https://www.cnblogs.com/pengc/p/8714475.html</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>H5</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js对象和数组之间相互转换</title>
+    <url>/2020/03/21/js%E5%AF%B9%E8%B1%A1%E5%92%8C%E6%95%B0%E7%BB%84%E4%B9%8B%E9%97%B4%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2/</url>
+    <content><![CDATA[<h1 id="有个终极方法解决数组和对象的相互转换问题"><a href="#有个终极方法解决数组和对象的相互转换问题" class="headerlink" title="有个终极方法解决数组和对象的相互转换问题"></a>有个终极方法解决数组和对象的相互转换问题</h1><p>下面的两个例子都是es6语法。</p>
+<ol>
+<li>数组转换成对象：<br>知识点： 扩展运算符…<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> obj = &#123;...arr&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(obj); <span class="comment">//&#123;0: 1, 1: 2, 2: 3&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li>对象转换成数组<br>知识点： Object.values(obj)<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="number">0</span>: <span class="string">'a'</span>, <span class="number">1</span>: <span class="string">'b'</span>, <span class="number">2</span>: <span class="string">'c'</span> &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.values(obj)); <span class="comment">// ['a', 'b', 'c']</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>ES6</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue引入阿里图标库的方法css-loader以及报错解决方案</title>
+    <url>/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<h1 id="下载到本地"><a href="#下载到本地" class="headerlink" title="下载到本地"></a>下载到本地</h1><p>想需要的图标加入购物车，然后添加至项目中，再选择下载至本地<br><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/8.png" alt></p>
+<a id="more"></a>
+<p>会得到一个压缩文件夹，打开这个文件，复制里面所有 iconfont 命名的文件，在 vue 项目中新建一个文件夹存放这些文件，我这里是在<font color="#f40">assets 文件夹</font>下新建 iconfont 文件夹。<br><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/9.png" alt></p>
+<h1 id="在-main-js-中引入"><a href="#在-main-js-中引入" class="headerlink" title="在 main.js 中引入"></a>在 main.js 中引入</h1><p>然后在 vue 项目的<font color="#f40">main.js</font>文件中进行引入：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"./assets/font/iconfont.css"</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="安装-css-loader-依赖包"><a href="#安装-css-loader-依赖包" class="headerlink" title="安装 css-loader 依赖包"></a>安装 css-loader 依赖包</h1><p>此时，如果直接使用，会报错，所以还需要安装<font color="#f40">css-loader</font>依赖包：<br><code>npm install --save css-loader</code><br>安装完成以后，就可以直接在需要使用图标的页面直接使用了。</p>
+<h1 id="使用图标"><a href="#使用图标" class="headerlink" title="使用图标"></a>使用图标</h1><p>一定要先引用<font color="#f40">iconfont 类名</font>，再使用具体的类名,否则会失效。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"iconfont icon-build"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"iconfont icon-cuo"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"iconfont icon-dui"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"iconfont icon-android"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果图：<br><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/10.png" alt></p>
+<p>可以用 css 样式自定义具体类名图标的大小，用<font color="#f40">font-size</font> 就行，一样要加<font color="#f40">!important</font></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.iconfont</span><span class="selector-class">.icon-build</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">2.5rem</span> <span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行效果：<br><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/11.png" alt></p>
+<h1 id="报错解决方案"><a href="#报错解决方案" class="headerlink" title="报错解决方案"></a>报错解决方案</h1><p>用vue-cli3导入外部的iconfont.css图标样式遇到的坑:These relative modules were not found:…<br>报错截图<br><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/12.png" alt></p>
+<p>原因是引入的iconfont.css 文件中的url地址没有删除掉<br>注意我这是举的是另一个例子，和上面不是一个例子，根据对应的url地址改的。<br><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/13.png" alt></p>
+<p><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/14.png" alt><br>修改后：<br><img src="/2020/03/14/vue%E5%BC%95%E5%85%A5%E9%98%BF%E9%87%8C%E5%9B%BE%E6%A0%87%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95css-loader%E4%BB%A5%E5%8F%8A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/15.png" alt></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>H5中的canvas验证码详解</title>
+    <url>/2020/03/08/H5%E4%B8%AD%E7%9A%84canvas%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="先看效果图"><a href="#先看效果图" class="headerlink" title="先看效果图"></a>先看效果图</h1><p><img src="/2020/03/08/H5%E4%B8%AD%E7%9A%84canvas%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%A6%E8%A7%A3/7.png" alt></p>
+<h1 id="代码阶段"><a href="#代码阶段" class="headerlink" title="代码阶段"></a>代码阶段</h1><p>由于这个canvas是我在vue项目里写的，所以为了照顾一下没学过vue的，就用了原生的js整理了一下，里面用到了一些es6的语法，包括class  模板字符串`` 等，代码里面都有注释。</p>
+<a id="more"></a>
+
+<p>html部分代码</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">width</span>=<span class="string">"250px"</span> <span class="attr">height</span>=<span class="string">"100px"</span> <span class="attr">id</span>=<span class="string">"canvas"</span>&gt;</span></span><br><span class="line">  该浏览器不支持canvas</span><br><span class="line"><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>js部分代码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Canvas</span> </span>&#123;</span><br><span class="line">        <span class="keyword">constructor</span>() &#123;</span><br><span class="line">            <span class="keyword">this</span>.curCanvas();</span><br><span class="line">        &#125;</span><br><span class="line">        curCanvas() &#123;</span><br><span class="line">            <span class="keyword">let</span> myCanvas = <span class="built_in">document</span>.querySelector(<span class="string">"#canvas"</span>);</span><br><span class="line">            <span class="keyword">let</span> ctx = myCanvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line">            <span class="keyword">let</span> canvasH = myCanvas.offsetHeight; <span class="comment">// canvas 高</span></span><br><span class="line">            <span class="keyword">let</span> canvasW = myCanvas.offsetWidth; <span class="comment">//canvas宽</span></span><br><span class="line">            ctx.clearRect(<span class="number">0</span>, <span class="number">0</span>, canvasW, canvasH); <span class="comment">// 每次先清空一下canvas画布，不然会和之前的重叠</span></span><br><span class="line">            ctx.fillStyle = <span class="string">"rgba(0,0,0,0.7)"</span>;</span><br><span class="line">            ctx.fillRect(<span class="number">0</span>, <span class="number">0</span>, canvasW, canvasH);</span><br><span class="line">            <span class="comment">// 生成干扰点</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">this</span>.producePoint(ctx, canvasW, canvasH);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 随机验证码</span></span><br><span class="line">            <span class="keyword">let</span> str = <span class="string">""</span>;</span><br><span class="line">            <span class="keyword">let</span> arr = <span class="keyword">this</span>.allCharacter();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">                str += arr[<span class="keyword">this</span>.randomValue(<span class="number">0</span>, <span class="number">61</span>)];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 核心代码</span></span><br><span class="line">            <span class="comment">// 设置的验证码就四个字符，遍历每个字符的时候，先把原点位移到设置好的位置，在进行旋转</span></span><br><span class="line">            <span class="comment">//每次都是位移旋转之后再回复原位</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i++) &#123;</span><br><span class="line">                <span class="keyword">let</span> colorR = <span class="keyword">this</span>.randomValue(<span class="number">0</span>, <span class="number">256</span>);</span><br><span class="line">                <span class="keyword">let</span> colorG = <span class="keyword">this</span>.randomValue(<span class="number">0</span>, <span class="number">256</span>);</span><br><span class="line">                <span class="keyword">let</span> colorB = <span class="keyword">this</span>.randomValue(<span class="number">0</span>, <span class="number">256</span>);</span><br><span class="line">                <span class="keyword">let</span> deg = <span class="keyword">this</span>.randomValue(<span class="number">-30</span>, <span class="number">30</span>);</span><br><span class="line">                <span class="keyword">let</span> x = <span class="keyword">this</span>.randomValue(<span class="number">20</span>, <span class="number">30</span>);</span><br><span class="line">                <span class="keyword">let</span> y = <span class="keyword">this</span>.randomValue(<span class="number">20</span>,<span class="number">30</span>);</span><br><span class="line">                <span class="comment">// 设置颜色 和字体大小以及样式</span></span><br><span class="line">                ctx.font = <span class="string">"3rem sans-serif"</span>;</span><br><span class="line">                ctx.fillStyle = <span class="string">`rgb(<span class="subst">$&#123;colorR&#125;</span>,<span class="subst">$&#123;colorG&#125;</span>,<span class="subst">$&#123;colorB&#125;</span>)`</span>;</span><br><span class="line">                <span class="comment">// 先把原点调到字符出现的位置，再旋转 ，然后填充字符</span></span><br><span class="line">                ctx.translate(x + <span class="number">50</span> * i, y);</span><br><span class="line">                ctx.rotate((<span class="built_in">Math</span>.PI / <span class="number">180</span>) * deg);</span><br><span class="line">                ctx.textBaseline =<span class="string">"top"</span></span><br><span class="line">                ctx.fillText(str[i], <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">                <span class="comment">// 把原点和旋转角度复位</span></span><br><span class="line">                ctx.rotate((<span class="built_in">Math</span>.PI / <span class="number">180</span>) * -deg);</span><br><span class="line">                ctx.translate(-(x + <span class="number">50</span> * i), -y);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 最小值到最大值之间的随机值</span></span><br><span class="line">        randomValue(min, max) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (max - min)) + min;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取0-9和a-z之间的字符</span></span><br><span class="line">        allCharacter() &#123;</span><br><span class="line">            <span class="keyword">let</span> arr = [];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">48</span>; i &lt; <span class="number">58</span>; i++) &#123;</span><br><span class="line">                arr.push(<span class="built_in">String</span>.fromCharCode(i));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">65</span>; j &lt; <span class="number">123</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= <span class="number">91</span> &amp;&amp; j &lt;= <span class="number">96</span>) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                arr.push(<span class="built_in">String</span>.fromCharCode(j));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> arr;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成干扰点</span></span><br><span class="line">        producePoint(ctx, canvasW, canvasH) &#123;</span><br><span class="line">            ctx.beginPath();</span><br><span class="line">            <span class="keyword">let</span> x = <span class="keyword">this</span>.randomValue(<span class="number">5</span>, canvasW - <span class="number">5</span>);</span><br><span class="line">            <span class="keyword">let</span> y = <span class="keyword">this</span>.randomValue(<span class="number">5</span>, canvasH - <span class="number">5</span>);</span><br><span class="line">            <span class="keyword">let</span> r = <span class="keyword">this</span>.randomValue(<span class="number">2</span>, <span class="number">4</span>);</span><br><span class="line">            <span class="keyword">let</span> colorR = <span class="keyword">this</span>.randomValue(<span class="number">0</span>, <span class="number">256</span>);</span><br><span class="line">            <span class="keyword">let</span> colorG = <span class="keyword">this</span>.randomValue(<span class="number">0</span>, <span class="number">256</span>);</span><br><span class="line">            <span class="keyword">let</span> colorB = <span class="keyword">this</span>.randomValue(<span class="number">0</span>, <span class="number">256</span>);</span><br><span class="line">            ctx.arc(x, y, r, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>);</span><br><span class="line">            ctx.fillStyle = <span class="string">`rgb(<span class="subst">$&#123;colorR&#125;</span>,<span class="subst">$&#123;colorG&#125;</span>,<span class="subst">$&#123;colorB&#125;</span>)`</span>;</span><br><span class="line">            ctx.fill();</span><br><span class="line">            ctx.closePath();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">new</span> Canvas();</span><br></pre></td></tr></table></figure>
+<h1 id="细节方面的问题"><a href="#细节方面的问题" class="headerlink" title="细节方面的问题"></a>细节方面的问题</h1><ul>
+<li>其实之前canvas的位移translate是困扰我很久的，因为一旦位移translate没有复位，下一次的位移接着上次的计算，后来查了一些资料才知道。所以每次位移之后，把字符填充上之后又复位了回来（旋转也一定要复位不然和位移是一样的，都会叠加计算）。</li>
+<li>每次刚开始要clearRect清除画布内容，否则刷新页面还是会叠加上次的画布内容（主要是我本次用的画布背景透明度是0.7，所以刷新页面会明显看到叠加的效果，如果一开始画布背景的透明度是1的话，不用clearRect效果也是一样的。） </li>
+</ul>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>H5</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>css让元素的高度随着宽度变化而变化的正方形</title>
+    <url>/2020/03/02/css%E8%AE%A9%E5%85%83%E7%B4%A0%E7%9A%84%E9%AB%98%E5%BA%A6%E9%9A%8F%E7%9D%80%E5%AE%BD%E5%BA%A6%E5%8F%98%E5%8C%96%E8%80%8C%E5%8F%98%E5%8C%96%E7%9A%84%E6%AD%A3%E6%96%B9%E5%BD%A2/</url>
+    <content><![CDATA[<h2 id="css样式"><a href="#css样式" class="headerlink" title="css样式"></a>css样式</h2><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    width：100%;     /*必须是100%*/ </span><br><span class="line">    <span class="selector-tag">height</span><span class="selector-pseudo">:0</span>;</span><br><span class="line">    <span class="selector-tag">padding-top</span><span class="selector-pseudo">:100</span>%  <span class="comment">/*padding-bottom:100% 也行*/</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样会使元素的高度等于宽度，形成一个正方形。 </p>
+<a id="more"></a>
+
+<p>注意：  </p>
+<ul>
+<li>width必须为100%，不能为具体值;   </li>
+<li>父元素的宽度必须有具体指,如：width:100px</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">style</span>&gt;</span><br><span class="line">   <span class="selector-id">#wrapper</span> &#123;</span><br><span class="line">     <span class="attribute">width</span>: <span class="number">100px</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="selector-id">#wrapper</span> <span class="selector-id">#app</span> &#123;</span><br><span class="line">     <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">     <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">     <span class="attribute">padding-top</span>: <span class="number">100%</span>;</span><br><span class="line">     <span class="attribute">background</span>: red;</span><br><span class="line">   &#125;</span><br><span class="line"> &lt;/style&gt;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/* html代码 */</span></span><br><span class="line">   &lt;div id="wrapper"&gt;</span><br><span class="line">   &lt;div id="app"&gt;&lt;/div&gt;</span><br><span class="line">   &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>运行效果:<br><img src="/2020/03/02/css%E8%AE%A9%E5%85%83%E7%B4%A0%E7%9A%84%E9%AB%98%E5%BA%A6%E9%9A%8F%E7%9D%80%E5%AE%BD%E5%BA%A6%E5%8F%98%E5%8C%96%E8%80%8C%E5%8F%98%E5%8C%96%E7%9A%84%E6%AD%A3%E6%96%B9%E5%BD%A2/6.png" alt></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js图片懒加载的实现原理</title>
+    <url>/2020/03/02/js%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h1><p>当打开一个有很多图片的页面时，先只加载页面上看到的图片，等滚动到页面下面时，再加载所需的图片。这就是图片懒加载。</p>
+<h1 id="二、作用"><a href="#二、作用" class="headerlink" title="二、作用"></a>二、作用</h1><p>减少或延迟请求数，缓解浏览器的压力，增强用户体验。</p>
+<h1 id="三、实现方式"><a href="#三、实现方式" class="headerlink" title="三、实现方式"></a>三、实现方式</h1><a id="more"></a>
+
+<p>1､设置图片src属性为同一张图片，同时自定义一个data-src属性来存储图片的真实地址<br></p>
+<p>2､ 页面初始化显示的时候或者浏览器发生滚动的时候判断图片是否在视野中<br></p>
+<p>3､ 当图片在视野中时，通过js自动改变该区域的图片的src属性为真实地址</p>
+<h1 id="四、代码部分"><a href="#四、代码部分" class="headerlink" title="四、代码部分"></a>四、代码部分</h1><p>1、html 部分</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> &lt;div class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">    &lt;img src&#x3D;&quot;http:&#x2F;&#x2F;smashinghub.com&#x2F;wp-content&#x2F;uploads&#x2F;2014&#x2F;08&#x2F;cool-loading-animated-gif-3.gif&quot; alt&#x3D;&quot;1&quot; data-src&#x3D;&quot;http:&#x2F;&#x2F;cdn.jirengu.com&#x2F;book.jirengu.com&#x2F;img&#x2F;1.jpg&quot;&gt;</span><br><span class="line">   .</span><br><span class="line">   .</span><br><span class="line">   .</span><br><span class="line">    &lt;img src&#x3D;&quot;http:&#x2F;&#x2F;smashinghub.com&#x2F;wp-content&#x2F;uploads&#x2F;2014&#x2F;08&#x2F;cool-loading-animated-gif-3.gif&quot; alt&#x3D;&quot;20&quot; data-src&#x3D;&quot;http:&#x2F;&#x2F;cdn.jirengu.com&#x2F;book.jirengu.com&#x2F;img&#x2F;20.jpg&quot;&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">.container &#123;</span><br><span class="line">      max-width: 800px;</span><br><span class="line">      margin: 0 auto;</span><br><span class="line">    &#125;</span><br><span class="line">    .container:after&#123;</span><br><span class="line">      content: &#39;&#39;;</span><br><span class="line">      display: block;</span><br><span class="line">      clear: both;</span><br><span class="line">    &#125;</span><br><span class="line">    .container img &#123;</span><br><span class="line">      float: left;</span><br><span class="line">      width: 50%;</span><br><span class="line">    &#125;</span><br><span class="line">    h1&#123;</span><br><span class="line">      clear: both;</span><br><span class="line">    &#125; </span><br><span class="line">&#x2F;*注：img都是浮动，如果不清除浮动，h1的值高度就相当于container里面最高的，不是实际的数值*&#x2F;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、js 部分</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  start() &#x2F;&#x2F; 一开始没有滚动，也需要触发一次 </span><br><span class="line"></span><br><span class="line">  $(window).on(&#39;scroll&#39;, function()&#123;&#x2F;&#x2F; 滚动时，显示对应图片</span><br><span class="line">    start()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  function start()&#123;</span><br><span class="line">    $(&#39;.container img&#39;).not(&#39;[data-isLoaded]&#39;).each(function()&#123;</span><br><span class="line">      var $node &#x3D; $(this)</span><br><span class="line">      if( isShow($node) )&#123;</span><br><span class="line">        loadImg($node)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function isShow($node)&#123; &#x2F;&#x2F; 判断图片是否在视野中</span><br><span class="line">    return $node.offset().top &lt;&#x3D; $(window).height() + $(window).scrollTop()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function loadImg($img)&#123; </span><br><span class="line">    $img.attr(&#39;src&#39;, $img.attr(&#39;data-src&#39;))</span><br><span class="line">    $img.attr(&#39;data-isLoaded&#39;, 1) &#x2F;&#x2F; 区别图片是否被加载过，防止重新加载</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="效果图地址"><a href="#效果图地址" class="headerlink" title="效果图地址"></a>效果图地址</h3><p><a href="http://js.jirengu.com/hexuluraxo/1/edit?html,output" target="_blank" rel="noopener">http://js.jirengu.com/hexuluraxo/1/edit?html,output</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scrollX、scrollY和scrollTop、scrollLeft的区别</title>
+    <url>/2020/02/26/scrollX%E3%80%81scrollY%E5%92%8CscrollTop%E3%80%81scrollLeft%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h2 id="scrollX、scrollY和scrollTop、scrollLeft比较"><a href="#scrollX、scrollY和scrollTop、scrollLeft比较" class="headerlink" title="scrollX、scrollY和scrollTop、scrollLeft比较"></a>scrollX、scrollY和scrollTop、scrollLeft比较</h2><ul>
+<li>相同点：都可以获取到滚动条的位置，都是window对象下的。bom对象</li>
+<li>不同点：scrollX、scrollY<font color="#f40">只读不写</font>;scrollTop、scrollLeft：<font color="#f40">可读可写</font>  </li>
+</ul>
+<a id="more"></a>
+
+<p>例子:在console控制台有输入代码，出现相应的结果<br><img src="/2020/02/26/scrollX%E3%80%81scrollY%E5%92%8CscrollTop%E3%80%81scrollLeft%E7%9A%84%E5%8C%BA%E5%88%AB/3.png" alt><br><br><br><img src="/2020/02/26/scrollX%E3%80%81scrollY%E5%92%8CscrollTop%E3%80%81scrollLeft%E7%9A%84%E5%8C%BA%E5%88%AB/4.png" alt></p>
+<h2 id="获取到scrollTop、scrollLeft的方法是"><a href="#获取到scrollTop、scrollLeft的方法是" class="headerlink" title="获取到scrollTop、scrollLeft的方法是"></a>获取到scrollTop、scrollLeft的方法是</h2><ol>
+<li><p>原生js获取 </p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> top = <span class="built_in">document</span>.documentElement.scrollTop;</span><br><span class="line"><span class="keyword">let</span> left = <span class="built_in">document</span>.documentElement.scrollLeft;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>jq中的获取方法是</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> top =  $(<span class="built_in">window</span>).scrollTop();</span><br><span class="line"><span class="keyword">let</span> left =  $(<span class="built_in">window</span>).scrollLeft();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="用scollTop做一个返回顶部功能按钮"><a href="#用scollTop做一个返回顶部功能按钮" class="headerlink" title="用scollTop做一个返回顶部功能按钮"></a>用scollTop做一个返回顶部功能按钮</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> back=<span class="built_in">document</span>.querySelector(<span class="string">".back"</span>);</span><br><span class="line">back.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> distance = <span class="built_in">document</span>.documentElement.scrollTop;</span><br><span class="line">    <span class="built_in">console</span>.log(distance);</span><br><span class="line">    <span class="keyword">let</span> s = distance / <span class="number">600</span> * <span class="number">25</span>;  <span class="comment">//路程/时间=s *25每隔25ms秒 动的路程</span></span><br><span class="line">    <span class="keyword">let</span> st = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        distance -= s;</span><br><span class="line">        <span class="keyword">if</span> (distance &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            distance = <span class="number">0</span>; <span class="comment">//当l&lt;=0时，设置l=0</span></span><br><span class="line">            clearInterval(st);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">document</span>.documentElement.scrollTop = distance;</span><br><span class="line">    &#125;, <span class="number">25</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>判断浏览器类型</title>
+    <url>/2020/02/26/js%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E7%B1%BB%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="判断浏览器类型用的方法是"><a href="#判断浏览器类型用的方法是" class="headerlink" title="判断浏览器类型用的方法是"></a>判断浏览器类型用的方法是</h2><p><font color="#f40"> navigator.userAgent </font>  //取得浏览器的userAgent字符串<br>例子  </p>
+<a id="more"></a>
+<ul>
+<li>Chrom浏览器<br><img src="/2020/02/26/js%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E7%B1%BB%E5%9E%8B/0.png" alt></li>
+<li>Firefox浏览器<br><img src="/2020/02/26/js%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E7%B1%BB%E5%9E%8B/1.png" alt></li>
+<li>Opera浏览器<br><img src="/2020/02/26/js%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E7%B1%BB%E5%9E%8B/2.png" alt></li>
+</ul>
+<h2 id="重点说一下Opera"><a href="#重点说一下Opera" class="headerlink" title="重点说一下Opera"></a>重点说一下Opera</h2><p>Opera之前用的引擎是自家的研发的 <strong>Presto</strong>  ，2016年以后改用chrome浏览器的<strong>webkit</strong>引擎,所以说做网上教的正常的浏览器判断，会把Opera判断成Chrome，Opera的名字改成了<strong>OPR</strong>,所以判断浏览器类型方法是（只区分浏览器，不考虑版本）：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myBrowser</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> userAgent = navigator.userAgent; <span class="comment">//取得浏览器的userAgent字符串</span></span><br><span class="line">    <span class="keyword">var</span> isOpera = userAgent.indexOf(<span class="string">"OPR"</span>) &gt; <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (isOpera) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Opera"</span></span><br><span class="line">    &#125;; <span class="comment">//判断是否Opera浏览器</span></span><br><span class="line">    <span class="keyword">if</span> (userAgent.indexOf(<span class="string">"Firefox"</span>) &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"FF"</span>;</span><br><span class="line">    &#125; <span class="comment">//判断是否Firefox浏览器</span></span><br><span class="line">    <span class="keyword">if</span> (userAgent.indexOf(<span class="string">"Chrome"</span>) &gt; <span class="number">-1</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"Chrome"</span>;</span><br><span class="line"> &#125;</span><br><span class="line">    <span class="keyword">if</span> (userAgent.indexOf(<span class="string">"Safari"</span>) &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Safari"</span>;</span><br><span class="line">    &#125; <span class="comment">//判断是否Safari浏览器</span></span><br><span class="line">    <span class="keyword">if</span> (userAgent.indexOf(<span class="string">"compatible"</span>) &gt; <span class="number">-1</span> &amp;&amp; userAgent.indexOf(<span class="string">"MSIE"</span>) &gt; <span class="number">-1</span> &amp;&amp; !isOpera) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"IE"</span>;</span><br><span class="line">    &#125;; <span class="comment">//判断是否IE浏览器</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>css3中hover的使用及细节</title>
+    <url>/2020/02/26/css3%E4%B8%ADhover%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E7%BB%86%E8%8A%82/</url>
+    <content><![CDATA[<h2 id="首先第一条很重要"><a href="#首先第一条很重要" class="headerlink" title="首先第一条很重要"></a>首先第一条很重要</h2><p> 元素添加hover伪类选择器时候一定要<font color="#f40">紧贴这hover</font>，不能有<font color="#f40">空格</font>，有空格的话表示给该元素的所有子元素设置里hover样式。</p>
+<a id="more"></a>
+
+<p>错误例子：</p>
+<figure class="highlight"><figcaption><span>html</span></figcaption><table><tr><td class="code"><pre><span class="line">ul :hover&#123;&#125; //ul的所有子元素设置了hover样式</span><br></pre></td></tr></table></figure>
+<p>正确例子：</p>
+<figure class="highlight"><figcaption><span>html</span></figcaption><table><tr><td class="code"><pre><span class="line">ul:hover&#123;&#125; // ul会显示出想要的效果</span><br></pre></td></tr></table></figure>
+<h2 id="第二"><a href="#第二" class="headerlink" title="第二"></a>第二</h2><p>当想要在父元素添加hover在指定的子元素的实现效果<br><font color="#f40">子元素应该写在hover后面空格隔开</font></p>
+<figure class="highlight"><figcaption><span>html</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">style</span>&gt;</span><br><span class="line">    <span class="selector-tag">li</span>&#123;</span><br><span class="line">               <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">               <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">               <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;</span><br><span class="line">               <span class="attribute">transition</span>:transfrom <span class="number">2s</span> linear;</span><br><span class="line">          &#125;</span><br><span class="line">          ul:hover .one&#123;            // 子元素写在hover后面空格隔开</span><br><span class="line">               <span class="selector-tag">transform</span><span class="selector-pseudo">:rotateY(90deg)</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="selector-tag">ul</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.two</span>&#123;</span><br><span class="line">               <span class="attribute">transform</span>:<span class="built_in">rotateY</span>(<span class="number">0deg</span>);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="selector-tag">ul</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.thr</span>&#123;</span><br><span class="line">               <span class="attribute">transform</span>:<span class="built_in">rotateY</span>(<span class="number">360deg</span>);</span><br><span class="line">          &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;<span class="selector-tag">body</span>&gt;</span><br><span class="line">    &lt;div style="width: 300px;height : 300px; background-color:#ccc"&gt;&lt;/div&gt;</span><br><span class="line">     &lt;<span class="selector-tag">ul</span>&gt;</span><br><span class="line">          &lt;li class="one"&gt;di1ge&lt;/li&gt;</span><br><span class="line">          &lt;li class="two"&gt;di2ge&lt;/li&gt;</span><br><span class="line">          &lt;li class="thr"&gt;di3ge&lt;/li&gt;</span><br><span class="line">     &lt;/ul&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>这个例子中就是当鼠标经过ul的时候，li会在设置的角度旋转</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>仅可以给<font color="#f40">自身的子元素</font>设置样式，给其他元素子元素设置无效<br>接着上个例子举例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div:hover .one&#123;&#125;  &#x2F;&#x2F;不显示任何效果，hover失效</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>css3</tag>
+      </tags>
+  </entry>
+</search>
