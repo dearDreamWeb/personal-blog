@@ -4,6 +4,7 @@ date: 2020-03-14 12:05:11
 tags: Vue
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
 
 # 下载到本地
 

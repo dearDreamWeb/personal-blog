@@ -2,9 +2,11 @@
 layout: js中cookie
 title: JS 中cookie 、cookie的js插件、Local Storage、Session Storage
 date: 2020-03-28 18:38:46
-tags: [JavaScript,H5]
+tags: [JavaScript,Html5]
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # cookie、Local Storage、Session Storage 定义
 <font color="#f40">Cookie（局限性）</font>：用户可以禁用cookie，<font color="#f40">最多只能存储4kb</font>，cookie有过期时间的（一般我们设置的时间最长1个月，<font color="#f40">用户使用杀毒软件也可以清除我们的cookie</font>），cookie还需要指定作用域，不可以跨域调用。
 

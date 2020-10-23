@@ -4,6 +4,8 @@ date: 2020-10-07 21:29:59
 tags: ES6
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 语法
 padStart(len, str)
 - 根据给定长度自动在字符串的前面补充想补充的字符串（只返回修改后的字符串，不修改原字符串）

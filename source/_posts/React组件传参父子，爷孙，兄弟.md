@@ -4,6 +4,8 @@ date: 2020-09-07 17:48:32
 tags: React
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 父子组件传参
 父组件在子组件上写上类似html标签的属性和属性值，子组件用props接收
 ```js

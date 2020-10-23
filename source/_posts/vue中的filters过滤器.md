@@ -4,6 +4,8 @@ date: 2020-04-17 09:29:00
 tags: Vue
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 <font color="#f40"></font>
 <font color="#f40">Vue2.0以后内置过滤器都去掉了，要用filters只能自定义写。</font>
 

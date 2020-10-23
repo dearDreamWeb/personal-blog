@@ -4,6 +4,8 @@ date: 2020-07-10 09:24:18
 tags: Vue
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 由于vue-cli4的index.html的title是在webpack中定义的，如下
 
 ```

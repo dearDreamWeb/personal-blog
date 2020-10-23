@@ -16,12 +16,12 @@
 
   .category-list-item {
     margin: 5px 10px;
+    border-radius: 5px;
   }
   // a标签 和后面的总数
   .category-list-item .category-list-link,
   .category-list-count{
     font-size: 1.5em;
-    color: #f40;
     border: none;
   }
   .category-list-count {
@@ -37,7 +37,11 @@
       display: inline;
     }
   }
-
+  .category-list-link{
+    &:hover{
+      color:#008eb9b8;
+    }
+  }
   .category-list-child {
     padding-left: 10px;
   }

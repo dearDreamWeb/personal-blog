@@ -4,6 +4,8 @@ date: 2020-08-17 08:37:43
 tags: [Node,Express]
 categories: 后端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 一、要实现文件上传原理要用到的知识点
 - form enctype属性
 - multer模块

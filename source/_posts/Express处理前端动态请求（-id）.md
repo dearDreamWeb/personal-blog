@@ -4,6 +4,8 @@ date: 2020-04-29 16:01:18
 tags: Express
 categories: 后端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 一、app.get()、app.post()
 配置客户端路由（请求地址）。
 ```

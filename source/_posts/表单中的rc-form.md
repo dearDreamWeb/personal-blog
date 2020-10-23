@@ -5,6 +5,8 @@ date: 2020-06-04 16:33:21
 tags: React
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 antd mobile 的form表单是InputItem  
 如图：
 ![1.png](1.png)

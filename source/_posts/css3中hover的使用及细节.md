@@ -4,6 +4,8 @@ date: 2020-02-26 15:33:35
 tags: css3
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 ## 首先第一条很重要
  元素添加hover伪类选择器时候一定要<font color="#f40">紧贴这hover</font>，不能有<font color="#f40">空格</font>，有空格的话表示给该元素的所有子元素设置里hover样式。
 

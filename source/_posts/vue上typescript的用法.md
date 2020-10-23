@@ -4,6 +4,8 @@ date: 2020-08-11 18:19:41
 tags: [Vue,TypeScript]
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # Vue.extend 和 vue-class-component
 使用 TypeScript 写 Vue 组件时，有两种推荐形式：
 - `Vue.extend()`：使用基础 Vue 构造器，创建一个“子类”。此种写法与 Vue 单文件组件标准形式最为接近，唯一不同仅是组件选项需要被包裹在 Vue.extend() 中。

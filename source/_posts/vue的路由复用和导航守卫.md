@@ -4,6 +4,8 @@ date: 2020-04-21 09:05:11
 tags: Vue
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 一、路由复用
 路由复用要在相对应的路由中添加的是在<font color="#f40">components</font>里面，不是children。  
 例如：

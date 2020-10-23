@@ -4,6 +4,8 @@ date: 2020-07-05 20:00:21
 tags: Express
 categories: 后端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 socket.io中文api博客地址：https://blog.csdn.net/u010528747/article/details/54341751
 
 # 一、socketio开发时的使用范围

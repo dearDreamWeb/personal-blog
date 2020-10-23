@@ -4,6 +4,8 @@ date: 2020-04-07 22:38:15
 tags: Vue
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 需求
 子组件想要改变父组件传入的值（props） 
 

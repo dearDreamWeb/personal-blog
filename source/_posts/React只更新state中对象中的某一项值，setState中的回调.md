@@ -4,6 +4,8 @@ date: 2020-08-09 09:06:24
 tags: React
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 只更新state中对象中的某一项值
 要用到`Object.assign()`方法   
 例子：

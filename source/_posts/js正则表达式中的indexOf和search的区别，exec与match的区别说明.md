@@ -4,6 +4,8 @@ date: 2020-04-12 18:50:12
 tags: JavaScript
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # indexOf和search的区别
 search和indexOf的作用都是匹配出符合条件的字符串的索引位置，区别是search能用正则表达式匹配
 <!-- more -->

@@ -4,6 +4,8 @@ date: 2020-07-04 10:00:57
 tags: React
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 先声明一个useReducer文件
 
 ```js

@@ -4,6 +4,8 @@ date: 2020-05-22 19:09:15
 tags: React
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 一、安装http-proxy-middleware
 ```js
 npm install http-proxy-middleware --save

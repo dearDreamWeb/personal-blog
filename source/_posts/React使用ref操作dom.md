@@ -4,6 +4,8 @@ date: 2020-05-05 16:36:44
 tags: React
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 第一种（不推荐）
 用法：<font color="#f40">ref="名字"</font>
 例子：

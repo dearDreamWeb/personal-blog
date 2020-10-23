@@ -4,6 +4,8 @@ date: 2020-09-30 17:46:56
 tags: Node
 categories: 前端
 ---
+<script type="text/javascript" src="/js/bai.js"></script>
+
 # 问题描述
 如果是要写入`object`数据的话，会出现`[object,object]`的情况  
 例如:
