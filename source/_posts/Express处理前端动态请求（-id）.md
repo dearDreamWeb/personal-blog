@@ -1,7 +1,7 @@
 ---
 title: 'Express处理前端动态请求（/:id）'
 date: 2020-04-29 16:01:18
-tags: Express
+tags: express
 categories: 后端
 ---
 <script type="text/javascript" src="/js/bai.js"></script>

@@ -82,5 +82,3 @@ categories: 前端
       $img.attr('data-isLoaded', 1) // 区别图片是否被加载过，防止重新加载
     }
 ```
-### 效果图地址
-http://js.jirengu.com/hexuluraxo/1/edit?html,output

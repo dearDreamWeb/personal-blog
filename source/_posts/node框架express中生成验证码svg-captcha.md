@@ -1,7 +1,7 @@
 ---
 title: node框架express中生成验证码svg-captcha
 date: 2020-09-23 09:20:38
-tags: [Node,Express]
+tags: [Node,express]
 categories: 后端
 ---
 <script type="text/javascript" src="/js/bai.js"></script>
