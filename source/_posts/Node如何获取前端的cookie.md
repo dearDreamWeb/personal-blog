@@ -2,7 +2,7 @@
 title: Node如何获取前端的cookie
 date: 2020-06-19 15:16:32
 tags: Node
-categories: 前端
+categories: 后端
 ---
 <script type="text/javascript" src="/js/bai.js"></script>
 
