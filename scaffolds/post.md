@@ -2,5 +2,6 @@
 title: {{ title }}
 date: {{ date }}
 tags:
+categories:
 ---
-<script type="text/javascript" src="/js/src/bai.js"></script>
+<script type="text/javascript" src="/js/bai.js"></script>
