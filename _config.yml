@@ -124,3 +124,9 @@ deploy:
     github: https://github.com/dearDreamWeb/blogwxb.github.io.git
     gitee: https://gitee.com/flyingwxb/blogwxb.gitee.io.git
   branch: master
+
+algolia:
+  applicationID: '2GWOPW0DEK'
+  apiKey: '5a4729cda52269cb0a7ca28d17bfdc17'
+  indexName: 'hexo'
+  chunkSize: 5000
