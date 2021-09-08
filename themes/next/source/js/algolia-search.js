@@ -112,6 +112,9 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   document.querySelector('.search-pop-overlay').addEventListener('click', onPopupClose);
+  document.querySelector('.search-popup').addEventListener('click', function(e){
+    e.stopPropagation();
+  });
   document.querySelector('.popup-btn-close').addEventListener('click', onPopupClose);
   window.addEventListener('pjax:success', onPopupClose);
   window.addEventListener('keyup', event => {
