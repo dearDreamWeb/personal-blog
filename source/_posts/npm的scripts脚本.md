@@ -32,7 +32,7 @@ npm使用`npm run`去执行脚本，会启动一个shell，可以通过shell命�
 ```
 
 # 传参
-#### 使用环境变量来代替
+## 使用环境变量来代替
 ```js
 "scripts": {
     "start": "PORT=3000 node app.js"
@@ -44,7 +44,7 @@ console.log(process.env.PORT)
 ```
 打印结果：`3000`
 
-#### 可以通过config配置项来定义变量获取
+## 可以通过config配置项来定义变量获取
 例子：
 ```
 "scripts": {
@@ -72,7 +72,7 @@ package.json中的配置项都可以通过`process.env.npm_package_`后面是配
 ```
 想要获取name就需要用`process.env.npm_package_name`,注意获取配置项一定要精确到最后，否则无法获取，比如无法获取scripts配置项中的所有数据，想要获取数据，要具体一点才行，如：`process.env.npm_package_scripts_test`才能获取到数据，而不是`process.env.npm_package_scripts`,这样的话获取到的结果是`undefined`。
 
-#### 用命令去修改配置项的值
+## 用命令去修改配置项的值
 使用命令去修改package.json中的数据，如：
 ```
 "name": "npmTest",
