@@ -1,5 +1,5 @@
 ---
-title: <<WebGL编程指南>>第1章WebGl概述
+title: WebGL编程指南:第1章WebGl概述
 categories: 前端
 date: 2021-12-24 11:37:35
 tags: WebGl
