@@ -14,9 +14,9 @@ categories: 前端
 <!-- more -->
 
 例子:在console控制台有输入代码，出现相应的结果
-![](3.png)
+![](/scrollX、scrollY和scrollTop、scrollLeft的区别/3.png)
 <br>
-![](4.png)
+![](/scrollX、scrollY和scrollTop、scrollLeft的区别/4.png)
 
 ## 获取到scrollTop、scrollLeft的方法是
 1. 原生js获取 

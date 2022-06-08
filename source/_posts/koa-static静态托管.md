@@ -23,9 +23,9 @@ app.listen(3030);
 ```
 <!-- more -->
 先看一下项目的目录结构
-![1.png](1.png)
+![1.png](/koa-static静态托管/1.png)
 查看静态文件
-![2.png](2.png)
+![2.png](/koa-static静态托管/2.png)
 
 # 注意：
 访问静态文件时，要直接通过`http://localhost:3030/index.html`访问，不是`http://localhost:3030/static/index.html`

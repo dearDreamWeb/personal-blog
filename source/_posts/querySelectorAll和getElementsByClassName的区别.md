@@ -33,7 +33,7 @@ querySelectorAll()和querySelector()有个比较容易忽略的缺点就是<font
 </script>
 ```
 运行结果：
-![1.png](1.png)
+![1.png](/querySelectorAll和getElementsByClassName的区别/1.png)
 
 2. 用getElementsByClassName()来做测试：
 ```js
@@ -44,6 +44,6 @@ parent.innerHTML="<a class='child'></a><a class='child'></a>"
 console.log(children);
 ```
 运行结果：
-![2.png](2.png)
+![2.png](/querySelectorAll和getElementsByClassName的区别/2.png)
 
 这样区别就一目了然了吧。<font color="#f40">getElementsByTagName()也是具有动态获取元素的功能的</font>。

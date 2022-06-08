@@ -34,7 +34,7 @@ categories: 前端
 </script>
 ```
 运行结果图:
-![0](0.png)
+![0](/vue中的filters过滤器/0.png)
 
 
 # 三、可以设置多个过滤器
@@ -61,7 +61,7 @@ categories: 前端
 </script>
 ```
 运行结果图:
-![1](1.png)
+![1](/vue中的filters过滤器/1.png)
 
 # 四、全局定义的filter
 

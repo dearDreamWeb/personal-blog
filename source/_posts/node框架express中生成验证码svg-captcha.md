@@ -53,7 +53,7 @@ this.$axios({
 ```
 
 运行效果：  
-![1.png](1.png)
+![1.png](/node框架express中生成验证码svg-captcha/1.png)
 
 #  API
 ## svgCaptcha.create(options)
@@ -123,7 +123,7 @@ router.get("/captchapng", function (req, res) {
 })
 ```
 运行效果：
-![2.png](2.png)
+![2.png](/node框架express中生成验证码svg-captcha/2.png)
 
 
 数学表达式验证码
@@ -137,4 +137,4 @@ const cap = svgCaptcha.createMathExpr(options);
 ```
 
 运行效果：
-![3.png](3.png)
+![3.png](/node框架express中生成验证码svg-captcha/3.png)

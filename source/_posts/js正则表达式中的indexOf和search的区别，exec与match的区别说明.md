@@ -37,7 +37,7 @@ console.log(reg.exec(str));//["abc", index: 1, input: "3abc4,5abc6", groups: und
 console.log(str.match(reg));//["abc", "abc"]
 ```
 效果图：
-![](0.png)
+![](/js正则表达式中的indexOf和search的区别，exec与match的区别说明/0.png)
 
 
 第3种情况
@@ -48,7 +48,7 @@ console.log(reg.exec(str));//abc,bc
 console.log(str.match(reg));//abc,bc
 ```
 效果图：
-![](1.png)
+![](/js正则表达式中的indexOf和search的区别，exec与match的区别说明1.png)
 
 
 第4种情况
@@ -59,4 +59,4 @@ console.log(reg.exec(str));//abc,bc
 console.log(str.match(reg));//abc,abc
 ```
 效果图
-![](2.png)
+![](/js正则表达式中的indexOf和search的区别，exec与match的区别说明2.png)

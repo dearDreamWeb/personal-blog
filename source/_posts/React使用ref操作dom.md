@@ -22,7 +22,7 @@ categories: 前端
 ```
   运行效果图：
   <!-- more -->
-  ![1.png](1.png)
+  ![1.png](/React使用ref操作dom/1.png)
   会有一个警告（意思是不推荐这种方法）：
   > Warning: A string ref, "dom", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead.
 
@@ -41,7 +41,7 @@ categories: 前端
   }
 ```
 运行效果：
-![2.png](2.png)
+![2.png](/React使用ref操作dom/2.png)
 
 # 第三种
 父组件操作子组件的dom元素

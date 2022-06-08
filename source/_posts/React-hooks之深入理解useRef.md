@@ -159,7 +159,7 @@ export default function App() {
 这是因为console.log是在渲染中打印，`useEffect是渲染之后执行的`，所以这时候ref.current保存的是上次的count的值。
 
 ## 五、使用useState模拟useRef
-![1.png](1.png)  
+![1.png](/React-hooks之深入理解useRef/1.png)  
 本质上是记忆hook，但也可作为data hook，可以简单的用useState模拟useRef：
 例子：
 ```js

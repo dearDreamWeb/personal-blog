@@ -9,10 +9,10 @@ categories: 前端
 # 下载到本地
 
 想需要的图标加入购物车，然后添加至项目中，再选择下载至本地
-![](8.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/8.png)
 <!-- more -->
 会得到一个压缩文件夹，打开这个文件，复制里面所有 iconfont 命名的文件，在 vue 项目中新建一个文件夹存放这些文件，我这里是在<font color="#f40">assets 文件夹</font>下新建 iconfont 文件夹。
-![](9.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/9.png)
 
 # 在 main.js 中引入
 
@@ -41,7 +41,7 @@ import "./assets/font/iconfont.css";
 ```
 
 运行结果图：
-![](10.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/10.png)
 
 可以用 css 样式自定义具体类名图标的大小，用<font color="#f40">font-size</font> 就行，一样要加<font color="#f40">!important</font>
 
@@ -51,17 +51,17 @@ import "./assets/font/iconfont.css";
 }
 ```
 运行效果：
-![](11.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/11.png)
 
 # 报错解决方案
 用vue-cli3导入外部的iconfont.css图标样式遇到的坑:These relative modules were not found:...  
 报错截图
-![](12.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/12.png)
 
 原因是引入的iconfont.css 文件中的url地址没有删除掉  
 注意我这是举的是另一个例子，和上面不是一个例子，根据对应的url地址改的。
-![](13.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/13.png)
 
-![](14.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/14.png)
 修改后：
-![](15.png)
+![](/vue引入阿里图标库的方法css-loader以及报错解决方案/15.png)

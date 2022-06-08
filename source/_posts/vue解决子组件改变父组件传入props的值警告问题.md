@@ -43,7 +43,7 @@ export default {
 <!-- more -->
 运行结果  
 <font color="#f40">值确实改变了，但是会有警告</font>
-![](0.png)
+![](/vue解决子组件改变父组件传入props的值警告问题/0.png)
 
 # 原因
 vue父组件props传值子组件是<font color="#f40">单向数据</font>的，子组件改变props值的话，父组件监听不到的。
@@ -83,4 +83,4 @@ vue父组件props传值子组件是<font color="#f40">单向数据</font>的，�
 ```
 运行结果  
 完美解决
-![](1.png)
+![](/vue解决子组件改变父组件传入props的值警告问题/1.png)

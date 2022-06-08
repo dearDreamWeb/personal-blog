@@ -61,7 +61,7 @@ export default App;
 
 ```
 运行结果
-![1.png](1.png)
+![1.png](/react的markdown编辑器react-markdown/1.png)
 
 如果想要了解更多的配置，请看两个包的文档地址：
 - [react-markdown文档](https://github.com/remarkjs/react-markdown)

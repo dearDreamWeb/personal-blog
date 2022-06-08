@@ -92,6 +92,6 @@ class ChildB extends React.Component {
 ```
 运行结果：  
 点击之前：
-![1.png](1.png)
+![1.png](/React组件传参父子，爷孙，兄弟/1.png)
 点击之后：
-![2.png](2.png)
+![2.png](/React组件传参父子，爷孙，兄弟/2.png)

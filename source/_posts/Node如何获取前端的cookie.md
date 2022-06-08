@@ -19,9 +19,9 @@ console.log(cookies)
 ```
 <!-- more -->
 运行结果：
-![1.png](1.png)
+![1.png](/Node如何获取前端的cookie/1.png)
 前端cookie：
-![2.png](2.png)
+![2.png](/Node如何获取前端的cookie/2.png)
 
 # 把cookie以字符串的形式切割成了对象
 ```

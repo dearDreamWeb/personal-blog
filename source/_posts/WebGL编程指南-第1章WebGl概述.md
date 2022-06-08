@@ -23,7 +23,7 @@ tags: WebGl
 
 `WebGl基于OpenGl`，它是从OpenGl的一个特殊版本`OpenGl ES`中派生出来的。WebGl1.0是基于OpenGl ES2.0，WebGl2.0是基于OpenGl ES3.0。目前浏览器上使用的WebGl是2.0版本的。  
 下图是OpenGl、OpenGl ES和WebGl的关系：
-![OpenGl、OpenGl ES和WebGl的关系](OpenGl、OpenGl%20ES和WebGl的关系.png) 
+![OpenGl、OpenGl ES和WebGl的关系](/WebGL编程指南-第1章WebGl概述/OpenGl、OpenGl%20ES和WebGl的关系.png) 
 
 OpenGl从2.0版本之后开始支持`着色器`，该特性被OpenGl ES 2.0继承，进而成为了WebGl 1.0标准的`核心部分`。  
 `着色器`是一种类似于C的编程语言，编写着色器的语言又称为`着色器语言`。OpenGl ES 2.0基于OpenGl 着色器语言（`GLSL`），因而被称为OpenGl ES 着色器语言（`GLSL ES`）。WebGl基于OpenGL ES，使用的也是GLSL ES编写着色器。  
@@ -31,4 +31,4 @@ OpenGl从2.0版本之后开始支持`着色器`，该特性被OpenGl ES 2.0继�
 ## WebGl程序的结构
 传统的动态网页使用两种语言：HTML和JavaScript。WebGl页面使用三种语言：HTML5、JavaScript和GLSL ES。  
 下图是传统动态网页和WebGl网页的软件结构  
-![传统动态网页和WebGl网页的软件结构.png](传统动态网页和WebGl网页的软件结构.png)
+![传统动态网页和WebGl网页的软件结构.png](/WebGL编程指南-第1章WebGl概述/传统动态网页和WebGl网页的软件结构.png)

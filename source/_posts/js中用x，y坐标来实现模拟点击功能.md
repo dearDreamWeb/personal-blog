@@ -41,7 +41,7 @@ document.elementFromPoint(x, y);
 ```
 运行结果：
 因为坐标(69, 61)对应就是名为red的button，所以就会获取到该元素。
-![1.png](1.png)
+![1.png](/js中用x，y坐标来实现模拟点击功能/1.png)
 
 
 # 三、什么是MouseEvent()
@@ -120,7 +120,7 @@ function click(x,y) {
 click(69, 61);
 ```
 运行结果：
-![2.png](2.png)
+![2.png](/js中用x，y坐标来实现模拟点击功能/2.png)
 
 > 推荐一篇关于<font color="#f40">js原生创建模拟事件和自定义事件的方法</font>博客链接
 https://www.cnblogs.com/libin-1/p/5944334.html
