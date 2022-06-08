@@ -36,7 +36,7 @@ app.use('/:id',(req,res)=>{
 })   
 ```
 运行结果
-![1.png](1.png)
+![1.png](/Express处理前端动态请求（-id）/1.png)
 
 或者也可以这样写（只是修改了后端代码）
 ```
@@ -47,4 +47,4 @@ app.use('/aa:id',(req,res)=>{
 })
 ```
 运行结果
-![2.png](2.png)
+![2.png](/Express处理前端动态请求（-id）/2.png)

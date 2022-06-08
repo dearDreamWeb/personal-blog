@@ -53,4 +53,4 @@ padEnd() 用于`尾部补全`。
 ```
 # 兼容性
 
-![1.png](1.png)
+![1.png](/ES6-字符串扩展-padStart，padEnd字符串补全长度的功能/1.png)

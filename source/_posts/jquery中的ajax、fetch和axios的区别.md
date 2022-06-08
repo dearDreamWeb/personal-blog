@@ -27,7 +27,7 @@ Fetch 提供了一个更理想的替代方案，可以很容易地被其他技�
 
 兼容性如下
 
-![fetch兼容性](1.png)
+![fetch兼容性](/jquery中的ajax、fetch和axios的区别/1.png)
 
 优点：
 - 符合MVVM模式，脱离了XHR，是ES规范里新的实现方式
@@ -65,7 +65,7 @@ Axios本质上也是对原生XHR的封装，只不过它是Promise的实现版�
 
 ### 一、 拦截器流程图
 
-![拦截器流程图](2.png)
+![拦截器流程图](/jquery中的ajax、fetch和axios的区别/2.png)
 
 ### 二、拦截器的应用场景
 对请求和其响应进行特定的处理的时候。

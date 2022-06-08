@@ -23,7 +23,7 @@ console.log(fun instanceof Function);
 ```
 结果图：
 <!-- more -->
-![1.png](1.png)
+![1.png](/js检验对象类型的方法instanceof操作符Object.prototype.toString.call/1.png)
 
 - instanceof  `用于测试构造函数的prototype属性是否出现在对象的原型链中的任何位置`
   + 解读：`用于判断某个对象是不是某个构造函数的一个实例，或者是不是某个构造函数的一个后代实例`

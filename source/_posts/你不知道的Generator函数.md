@@ -140,8 +140,8 @@ console.log(a.next(13));
 # 三、iterable
 iterable意为可迭代的，是ES6引入一个新类型，可以通过`for...of`来循环遍历，如`Array`、`Set`、`Map`都是属于iterable类型。Generator函数`运行时`返回一个iterable类型的迭代器。  
 下面是浏览器控制台上Set和Generator函数运行时原型上截图
-![Set](0.png)
-![Generator](1.png)
+![Set](/你不知道的Generator函数/0.png)
+![Generator](/你不知道的Generator函数/1.png)
 `for...of循环是会寻找并调用目标的Symbol.iterator函数来构建一个迭代器。`  
 例子：
 ```js

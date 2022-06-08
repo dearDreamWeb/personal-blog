@@ -60,9 +60,9 @@ var x = document.cookie;
 console.log(x)
 ```
 运行结果
-![](1.png)
+![](/JS%20中cookie%20、cookie的js插件、Local%20Storage、Session%20Storage/1.png)
 
-![](2.png)
+![](/JS%20中cookie%20、cookie的js插件、Local%20Storage、Session%20Storage/2.png)
 
 # 轻量级JS Cookie插件js-cookie的使用方法
 介绍：js-cookie插件是一个JS操作cookie的插件，源文件只有3.34 KB，非常轻量级。js-cookie也支持npm和Bower安装和管理。
@@ -128,7 +128,7 @@ sessionStorage.clear();
 注意：
 往localStorage和sessionStorage传值的话，比如传对象或者数组的时候记得先把其转换成json对象，用JSON.stringify();获取值的时候再用<font color="#f40">JSON.parse()或者eval("("+ JSON+")")</font>等方法去解析JSON。
 例子：
-![](3.png)
+![](/JS%20中cookie%20、cookie的js插件、Local%20Storage、Session%20Storage/3.png)
 
 localStorage的语法和sessionStorage是一样的
 

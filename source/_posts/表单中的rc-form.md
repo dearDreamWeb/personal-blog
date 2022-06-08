@@ -9,7 +9,7 @@ categories: 前端
 
 antd mobile 的form表单是InputItem  
 如图：
-![1.png](1.png)
+![1.png](/表单中的rc-form/1.png)
 
 # rc-form
 <!-- more -->

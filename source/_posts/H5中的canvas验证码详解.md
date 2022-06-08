@@ -7,7 +7,7 @@ categories: 前端
 <script type="text/javascript" src="/js/bai.js"></script>
 
 # 先看效果图
-![](7.png)
+![](/H5中的canvas验证码详解/7.png)
 # 代码阶段
 由于这个canvas是我在vue项目里写的，所以为了照顾一下没学过vue的，就用了原生的js整理了一下，里面用到了一些es6的语法，包括class  模板字符串`` 等，代码里面都有注释。
     

@@ -97,7 +97,7 @@ app.use('/files',(req,res)=>{
 ]
 ```
 效果图：
-![1.png](1.png)
+![1.png](/Express实现文件上传原理 form enctype属性  path模块  multer模块/1.png)
 
 # 四、path模块
 先安装 `cnpm i path --save`  
@@ -151,8 +151,8 @@ server.use((req, res) => {
 })
 ```
 运行结果
-![2.png](2.png)
-![3.png](3.png)
+![2.png](/Express实现文件上传原理 form enctype属性  path模块  multer模块/2.png)
+![3.png](/Express实现文件上传原理 form enctype属性  path模块  multer模块/3.png)
 
 若想要往数据库里传真正的文件名字需要，否则含有路径
 ```js

@@ -33,7 +33,7 @@ categories: 前端
 <!--more-->
 运行如下    
 当输入超过20位时，虽然已经校验失败了，但是提示消息不见了。
-![1.png](1.png)
+![1.png](/antd中setFieldsValue导致提示消失/1.png)
 
 # 原因：
 可能`setFieldsValue`是异步的原因导致消息不提示
@@ -67,4 +67,4 @@ categories: 前端
 </Form>
 ```
 运行后
-![2.png](2.png)
+![2.png](/antd中setFieldsValue导致提示消失/2.png)

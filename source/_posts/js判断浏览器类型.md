@@ -12,11 +12,11 @@ categories: 前端
 例子  
 <!-- more -->
 - Chrom浏览器  
-![](0.png)
+![](/判断浏览器类型/0.png)
 - Firefox浏览器
-![](1.png)
+![](/判断浏览器类型/1.png)
 - Opera浏览器
-![](2.png)
+![](/判断浏览器类型/2.png)
 
 ## 重点说一下Opera
 Opera之前用的引擎是自家的研发的 **Presto**  ，2016年以后改用chrome浏览器的**webkit**引擎,所以说做网上教的正常的浏览器判断，会把Opera判断成Chrome，Opera的名字改成了**OPR**,所以判断浏览器类型方法是（只区分浏览器，不考虑版本）：

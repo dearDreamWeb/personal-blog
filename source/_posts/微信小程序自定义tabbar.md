@@ -151,7 +151,7 @@ onShow:function(){
 
 # 注意事项
 在`custom-tab-bar`中的`index.js`文件如上述的`allList`字段中列举的tabbar的信息中`pagePath`字段要以`/page`开始才能切换的时候找到索引位置，否则会出现点击tabbar失效，不会跳转的情况，如下图:
-<img src='0.png' height='500'/>
+<img src='/微信小程序自定义tabbar/0.png' height='500'/>
 正确例子:  
 ```js
 "pagePath": "/pages/index/index",

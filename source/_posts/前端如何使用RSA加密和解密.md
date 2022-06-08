@@ -10,21 +10,21 @@ categories: 前端
 <a href="https://oomake.com/download/openssl">openssl下载地址</a>  
 下载完openssl工具并安装之后，打开openssl文件夹下的bin文件夹，执行<font color="#f40">openssl.exe</font>程序：   
 如图：
-![1.png](1.png)
+![1.png](/前端如何使用RSA加密和解密/1.png)
 <!-- more -->
 ## （1）生成RSA私钥
 打开openssl.exe 后输入<font color="#f40">genrsa -out rsa_private_key.pem 1024</font>   回车会看到结果
-![2.png](2.png)
+![2.png](/前端如何使用RSA加密和解密/2.png)
 
 这时候bin文件夹中看到一个文件名为<font color="#f40">rsa_private_key.pem</font>的文件，用记事本方式打开它，可以看到-----BEGIN RSA PRIVATE KEY-----开头，-----END RSA PRIVATE KEY-----结尾的没有换行的字符串，这个就是原始的私钥。每次使用<font color="#f40">genrsa -out rsa_private_key.pem 1024</font>命令，私钥都会变的。
-![3.png](3.png)
+![3.png](/前端如何使用RSA加密和解密/3.png)
 
 ## （2）生成RSA公钥
 输入命令：<font color="#f40">rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem</font>，并回车，得到生成成功的结果
-![4.png](4.png)
+![4.png](/前端如何使用RSA加密和解密/4.png)
 
 这时候可以在bin文件夹中看到一个文件名为rsa_public_key.pem的文件，用记事本方式打开它，可以看到-----BEGIN PUBLIC KEY-----开头，-----END PUBLIC KEY-----结尾的没有换行的字符串，这个就是公钥。
-![5.png](5.png)
+![5.png](/前端如何使用RSA加密和解密/5.png)
 
 ## 注意： 
 <font color="#f40">必须先生成私钥再生成公钥才行。</font>
@@ -83,4 +83,4 @@ console.log(encrypt("我是一段数据"))  // 加密
 console.log(decrypt(encrypt("我是一段数据")))  // 解密
 ```
 运行结果：
-![6.png](6.png)
+![6.png](/前端如何使用RSA加密和解密/6.png)
