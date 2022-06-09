@@ -102,7 +102,7 @@ menu:
   archives: /archives/ || fa fa-archive
   # schedule: /schedule/ || fa fa-calendar
   # sitemap: /sitemap.xml || fa fa-sitemap
-  commonweal: /404.html || fa fa-heartbeat
+  commonweal: /404 || fa fa-heartbeat
 
 # Enable / Disable menu icons / item badges.
 menu_settings:
@@ -621,7 +621,7 @@ livere_uid: # <your_uid>
 gitalk:
   enable: true
   github_id: dearDreamWeb
-  repo: blogwxb.github.io
+  repo: https://github.com/dearDreamWeb/blogwxb.github.io/issues/
   client_id: 7f8d07a23ceb51a8b530
   client_secret: ab8edf69fd011cab729559059c6ca70e55416c76
   admin_user: ['dearDreamWeb']
