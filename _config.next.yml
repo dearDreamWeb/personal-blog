@@ -573,7 +573,7 @@ comments:
   style: tabs
   # Choose a comment system to be displayed by default.
   # Available values: disqus | disqusjs | changyan | livere | gitalk | utterances
-  active:
+  active: gitalk
   # Setting `true` means remembering the comment system selected by the visitor.
   storage: true
   # Lazyload all comment systems.
@@ -617,14 +617,15 @@ changyan:
 livere_uid: # <your_uid>
 
 # Gitalk
+# 教学链接：https://www.owo233.xyz/2022/03/15/Hexo-How-To-Use-Gitalk/
 # For more information: https://gitalk.github.io
 gitalk:
   enable: true
   github_id: dearDreamWeb
-  repo: https://github.com/dearDreamWeb/blogwxb.github.io/issues/
-  client_id: 7f8d07a23ceb51a8b530
-  client_secret: ab8edf69fd011cab729559059c6ca70e55416c76
-  admin_user: ['dearDreamWeb']
+  repo: blogwxb.github.io
+  client_id: 86685a6104f8e6ba5827
+  client_secret: 7cf015e84bbe755bde20c8aca767977e316304ad
+  admin_user: dearDreamWeb
   distraction_free_mode: true # Facebook-like distraction free mode
   # When the official proxy is not available, you can change it to your own proxy address
   proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token # This is official proxy address
