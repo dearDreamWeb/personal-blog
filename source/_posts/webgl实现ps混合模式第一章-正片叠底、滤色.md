@@ -8,17 +8,17 @@ tags: WebGl
 
 # 一、混合模式
 在ps中有很多的混合模式，如：正片叠底、滤色、变暗、变亮等等。下图为ps的算法公式图：
-<img src='0.png' height=400/>
+<img src='/webgl实现ps混合模式第一章-正片叠底、滤色/0.png' height=400/>
 
+<!--more-->
 # 二、什么是正片叠底和滤色
 正片叠底简单的来说就是`“去白留黑”`，所谓的`“去白留黑”`的实现原理就是将两张图的`rgba相乘`，rgba的各个值的区间为`[0.0,1.0]`，1.0乘任何值还是任何值本身，所以白色就被去除掉了。
 滤色和正片叠底是相反的，也就是`“去黑留白”`。
-
 # 三、正片叠底实现过程
 下面例子中的两张图片原图为下面两个，第一张是效果图中的底图，第二张图是实现叠加效果的上层的图片
 <div style='display:flex'>
-    <img src='1.png' height=200/>
-    <img src='2.png' height=200/>
+    <img src='/webgl实现ps混合模式第一章-正片叠底、滤色/1.png' height=200/>
+    <img src='/webgl实现ps混合模式第一章-正片叠底、滤色/2.png' height=200/>
 </div>
 
 这四个颜色叠加模式的顶点着色器都是一样的。  
@@ -51,9 +51,9 @@ const FSHADER_SOURCE = `
 `;
 ```
 运行结果：
-<img src='3.png' height=200/>
+<img src='/webgl实现ps混合模式第一章-正片叠底、滤色/3.png' height=200/>
 这种两张都没有透明的部分的图片正片叠底的效果是没错的，但是，当混合模式的`图片部分有透明`的话就会导致下层的图片显示不出来，如下图：
-<img src='4.png' height=200/>
+<img src='/webgl实现ps混合模式第一章-正片叠底、滤色/4.png' height=200/>
 
 可以看的出来除了人物正片叠底了，人物之外透明部分是没有混合显示出来的。
 ### 为什么呢？
@@ -80,7 +80,7 @@ const FSHADER_SOURCE = `
 `;
 ```
 效果图如下：
-<img src='5.png' height=200/>
+<img src='/webgl实现ps混合模式第一章-正片叠底、滤色/5.png' height=200/>
 
 # 滤色实现过程
 滤色的片元着色器为：
@@ -103,7 +103,7 @@ const FSHADER_SOURCE = `
     }
 `;
 ```
-<img src='6.png' height=200/>
+<img src='/webgl实现ps混合模式第一章-正片叠底、滤色/6.png' height=200/>
 
 正片叠底完整代码片段：
 ```js
