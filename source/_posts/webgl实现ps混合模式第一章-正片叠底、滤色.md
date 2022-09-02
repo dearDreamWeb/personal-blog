@@ -1,7 +1,7 @@
 ---
 title: webgl实现ps混合模式第一章~正片叠底、滤色
 categories: 前端
-date: 2022-09-02 10:24:34
+date: 2022-08-18 10:24:34
 tags: WebGl
 ---
 <script type="text/javascript" src="/js/bai.js"></script>
