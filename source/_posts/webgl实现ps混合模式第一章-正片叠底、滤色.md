@@ -71,7 +71,7 @@ const FSHADER_SOURCE = `
         vec4 baseColor = texture2D(u_Image, v_PointUV);
         // 上层混合图片的颜色
         vec4 blendColor = texture2D(u_Image1, v_PointUV);
-        vec4 color = blendColor * baseColor;
+        vec4 color = blendColor * baseColor + blendColor * (1.0 - baseColor.a) + baseColor * (1.0 - blendColor.a);
         if(blendColor.a == 0.0){
             color = baseColor;
         }
