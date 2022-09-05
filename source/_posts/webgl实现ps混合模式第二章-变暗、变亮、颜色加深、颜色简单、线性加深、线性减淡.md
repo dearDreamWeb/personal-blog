@@ -1,7 +1,7 @@
 ---
 title: webgl实现ps混合模式第二章-变暗、变亮、颜色加深、颜色简单、线性加深、线性减淡
 categories: 前端
-date: 2022-09-05 10:34:06
+date: 2022-08-28 10:34:06
 tags: WebGl
 ---
 <script type="text/javascript" src="/js/bai.js"></script>
@@ -29,7 +29,7 @@ const FSHADER_SOURCE = `
 `;
 ```
 效果：
-<img src='/webgl实现ps混合模式第二章-变暗、变亮、颜色加深、颜色简单、线性加深、线性减淡/0.png' height=200/>
+<img src='https://lire.oss-cn-hangzhou.aliyuncs.com/a1911228-d5bd-4f79-9113-190201aea47b-0.png' height=200/>
 
 变亮shader代码：
 ```c++
@@ -49,7 +49,7 @@ const FSHADER_SOURCE = `
 `;
 ```
 效果:
-<img src='/webgl实现ps混合模式第二章-变暗、变亮、颜色加深、颜色简单、线性加深、线性减淡/1.png' height=200/>
+<img src='https://lire.oss-cn-hangzhou.aliyuncs.com/a1911228-d5bd-4f79-9113-190201aea47b-1.png' height=200/>
 
 # 颜色加深、颜色减淡
 颜色加深、颜色减淡这两个功能都要用到`反相`，反相的计算方式是 `1.0减去rgb的颜色值`
@@ -75,7 +75,7 @@ const FSHADER_SOURCE = `
 `;
 ```
 效果：
-<img src='/webgl实现ps混合模式第二章-变暗、变亮、颜色加深、颜色简单、线性加深、线性减淡/2.png' height=200/>
+<img src='https://lire.oss-cn-hangzhou.aliyuncs.com/a1911228-d5bd-4f79-9113-190201aea47b-2.png' height=200/>
 
 颜色加深的实现：
 
@@ -99,7 +99,7 @@ const FSHADER_SOURCE = `
 `;
 ```
 效果：
-<img src='/webgl实现ps混合模式第二章-变暗、变亮、颜色加深、颜色简单、线性加深、线性减淡/3.png' height=200/>
+<img src='https://lire.oss-cn-hangzhou.aliyuncs.com/a1911228-d5bd-4f79-9113-190201aea47b-3.png' height=200/>
 
 # 线性加深和线性减淡
 线性加深和线性减淡是向量进行相加减的过程，需要用到`clamp()`函数进行范围限制。
@@ -128,7 +128,7 @@ const FSHADER_SOURCE = `
 ```
 
 效果：
-<img src='/webgl实现ps混合模式第二章-变暗、变亮、颜色加深、颜色简单、线性加深、线性减淡/4.png' height=200/>
+<img src='https://lire.oss-cn-hangzhou.aliyuncs.com/a1911228-d5bd-4f79-9113-190201aea47b-4.png' height=200/>
 
 线性减淡效果：
 
@@ -153,4 +153,4 @@ const FSHADER_SOURCE = `
 ```
 
 效果：
-<img src='/webgl实现ps混合模式第二章-变暗、变亮、颜色加深、颜色简单、线性加深、线性减淡/5.png' height=200/>
+<img src='https://lire.oss-cn-hangzhou.aliyuncs.com/a1911228-d5bd-4f79-9113-190201aea47b-5.png' height=200/>
