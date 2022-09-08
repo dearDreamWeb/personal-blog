@@ -21,7 +21,7 @@ tags: WebGl
     <img src='https://lire.oss-cn-hangzhou.aliyuncs.com/7f352606-e5b7-4a89-a02c-7e2b8d818148-2.png' height=200/>
 </div>
 
-这四个颜色叠加模式的顶点着色器都是一样的。  
+这两个图片混合模式的顶点着色器都是一样的。  
 例子：
 ```c++
 const VSHADER_SOURCE = `
