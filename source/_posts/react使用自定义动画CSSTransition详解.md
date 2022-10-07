@@ -4,7 +4,7 @@ date: 2020-10-23 12:01:06
 tags: React
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、先下载依赖包
 安装两个包 `react-transition-group` 和 `@types/react-transition-group`

@@ -4,7 +4,7 @@ date: 2020-03-21 09:07:26
 tags: [JavaScript,ES6]
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 有个终极方法解决数组和对象的相互转换问题
 下面的两个例子都是es6语法。

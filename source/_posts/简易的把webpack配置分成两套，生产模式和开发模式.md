@@ -4,7 +4,7 @@ date: 2021-09-14 11:42:27
 tags: WebPack
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # webpack.config.js中配置，区分两套配置
 先通过运行的命令判断是开发模式还是生成模式，把公共的配置放在webpack.config.js，再根据模式引入对应的配置

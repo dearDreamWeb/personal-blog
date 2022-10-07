@@ -4,7 +4,7 @@ date: 2020-03-08 11:25:13
 tags: Html5
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 先看效果图
 ![](/H5中的canvas验证码详解/7.png)

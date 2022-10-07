@@ -4,7 +4,7 @@ date: 2020-05-07 21:00:55
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 一直以为querySelectorAll()系列除了兼容性以外其他方面都能完胜getElementsByClassName()系列，最近才发现我还是太年轻了。
 # 区别：

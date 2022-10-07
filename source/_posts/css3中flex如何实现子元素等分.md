@@ -4,7 +4,7 @@ date: 2020-07-18 10:31:19
 tags: css3
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、属性
 <font color="#f40">justify-content: space-between;</font>

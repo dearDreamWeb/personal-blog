@@ -4,7 +4,7 @@ categories: 前端
 date: 2022-08-28 10:34:06
 tags: WebGl
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 接着上一章讲解，如果本章有些知识点和公式看不懂可以看一下<a href="/webgl%E5%AE%9E%E7%8E%B0ps%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%AD%A3%E7%89%87%E5%8F%A0%E5%BA%95%E3%80%81%E6%BB%A4%E8%89%B2" target="_blank">第一章</a>的讲解。
 

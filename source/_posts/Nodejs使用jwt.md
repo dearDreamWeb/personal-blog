@@ -4,7 +4,7 @@ date: 2021-08-25 20:08:29
 tags: Node
 categories: 后端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 什么是jwt
 jwt全称是JSON Web Token，是Token身份验证的方法之一。  

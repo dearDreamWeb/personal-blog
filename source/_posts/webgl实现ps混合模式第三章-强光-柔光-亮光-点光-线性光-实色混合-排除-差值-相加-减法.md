@@ -4,7 +4,7 @@ categories: 前端
 date: 2022-09-08 22:04:25
 tags: WebGl
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 本章的图片和之前两张的图替换一下，第一张是底层的图片，第二张图是进行混合模式的，这是png图片，空白的地方全是透明的。
 <div style='display:flex'>

@@ -4,7 +4,7 @@ date: 2020-09-18 20:30:15
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 说明
 该封装库只是对localStorage和sessionStorage进行的简易封装。   

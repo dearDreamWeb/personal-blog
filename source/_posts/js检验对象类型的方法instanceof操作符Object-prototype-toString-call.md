@@ -4,7 +4,7 @@ date: 2020-08-02 08:17:16
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 用typeof能区别出`string` ， `number` ， `boolean` ， `undefined` ，`object`  
 

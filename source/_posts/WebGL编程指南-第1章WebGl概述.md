@@ -5,7 +5,7 @@ date: 2021-12-24 11:37:35
 tags: WebGl
 
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 第1章 WebGl概述
 传统意义上的三维图形的显示需要开发者使用`C`或者`C++`语言，使用计算机图形库，如`OpenGl`或`Direct3D`来完成一个三维图形的应用程序。

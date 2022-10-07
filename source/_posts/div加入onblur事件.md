@@ -4,7 +4,7 @@ date: 2021-02-06 14:08:30
 tags: Html
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 一般情况下，div是`没有onblur事件`的，但是给div加上`tabindex`属性后，就可以`使用onblur事件`了。  
 # 注意

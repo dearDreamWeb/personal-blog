@@ -4,7 +4,7 @@ date: 2020-12-25 11:16:40
 tags: Html5
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 介绍
 在Web应用中，实现动画效果的方法比较多，JavaScript 中可以通过定时器 `setTimeout` 来实现，`css3` 可以使用 `transition` 和 `animation` 来实现，html5 中的 `canvas` 也可以实现。除此之外，html5 还提供一个专门用于请求动画的 API，即 ` requestAnimationFrame（rAF）`，顾名思义就是 “`请求动画帧`”。 为了深入理解  `rAF` 背后的原理（后文的 `rAF` 均指的是 `requestAnimationFrame`），我们首先需要了解一下与之相关的几个概念：

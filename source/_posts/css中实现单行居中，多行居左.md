@@ -4,7 +4,7 @@ date: 2020-11-17 20:57:06
 tags: css
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 正常情况下对齐方式只能是按照一个方向排列，如：
 ```html

@@ -4,7 +4,7 @@ date: 2020-11-08 08:41:01
 tags: Jest
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 运行Jest
 1. 安装jest

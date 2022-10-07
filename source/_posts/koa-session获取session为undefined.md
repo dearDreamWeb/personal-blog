@@ -4,7 +4,7 @@ date: 2021-02-19 20:07:59
 tags: koa
 categories: 后端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 问题
 使用koa-session时，获取session显示的是undefined

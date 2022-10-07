@@ -4,7 +4,7 @@ date: 2020-10-30 10:08:34
 tags: React
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、用到的npm包
 `react-markdown` ：用来解析markdown。 

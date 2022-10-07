@@ -4,7 +4,7 @@ date: 2020-12-18 10:18:34
 tags: [Javescript,HTML5]
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # jquery ajax
 对原生XHR的封装。

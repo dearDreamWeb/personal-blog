@@ -4,7 +4,7 @@ date: 2020-09-09 19:16:55
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # get和set的介绍
 get 和 set方法可以使用在`对象`或者`构造函数`中，但不能出现在普通的function里。   

@@ -4,7 +4,7 @@ date: 2020-09-12 10:44:52
 tags: TypeScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 接口
 接口是由`interface`去定义的，知识点分为

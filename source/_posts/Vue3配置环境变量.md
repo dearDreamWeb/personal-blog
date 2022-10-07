@@ -4,7 +4,7 @@ categories: 前端
 date: 2022-03-21 11:08:51
 tags: [Vue3]
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 使用场景
 在做项目中经常用到axios去发送请求，也通常会把axios进行一个封装去使用，axios中使用`baseURL`字段去配置请求的基础路径，如：  

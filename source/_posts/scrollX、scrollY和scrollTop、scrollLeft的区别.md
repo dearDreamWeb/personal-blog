@@ -4,7 +4,7 @@ date: 2020-02-26 17:05:41
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 
 ## scrollX、scrollY和scrollTop、scrollLeft比较

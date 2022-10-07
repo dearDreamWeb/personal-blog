@@ -4,7 +4,7 @@ date: 2020-03-02 22:52:09
 tags: css
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 ## css样式
 ```css

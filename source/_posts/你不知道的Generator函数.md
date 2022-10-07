@@ -4,7 +4,7 @@ date: 2021-03-12 10:55:44
 tags: ES6
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、什么是Generator函数
 Generator 函数是 ES6 提供的一种`异步编程解决方案`，语法行为与传统函数完全不同。  

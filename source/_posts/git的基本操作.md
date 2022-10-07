@@ -4,7 +4,7 @@ date: 2021-03-24 18:13:45
 tags: git
 categories: git
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 在进行git 操作之前，先进行一个配置，这个配置告诉git  用户和邮箱  
 例子：

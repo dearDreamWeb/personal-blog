@@ -4,7 +4,7 @@ categories: 前端
 date: 2021-10-08 19:47:26
 tags: [Node,Npm]
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 npm中的package.json中可以通过scripts字段来实现脚本。
 # 原理

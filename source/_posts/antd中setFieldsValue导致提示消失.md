@@ -4,7 +4,7 @@ date: 2021-02-26 10:49:15
 tags: antd
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 场景：
 当表单输入时，限制用户最大输入的长度时，会导致提示错误消息消失  

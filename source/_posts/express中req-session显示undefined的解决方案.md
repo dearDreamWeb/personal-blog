@@ -4,7 +4,7 @@ date: 2020-04-01 23:41:43
 tags: express
 categories: 后端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 先看一下源码
 ```js

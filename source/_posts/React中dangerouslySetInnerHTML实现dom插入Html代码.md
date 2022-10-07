@@ -4,7 +4,7 @@ categories: 前端
 date: 2022-05-18 09:49:28
 tags: [React]
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 场景
 当用富文本编辑好内容保存到数据库之后，数据库存的富文本的内容格式如下：  

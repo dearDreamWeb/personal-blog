@@ -4,7 +4,7 @@ categories: C++
 date: 2022-06-20 10:35:56
 tags: C++
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 # 转义字符
 转义字符是为了表达一些不能显示出来的ASCII字符。  常见的转义字符有 `\n`, `\\` ,`\t`
 

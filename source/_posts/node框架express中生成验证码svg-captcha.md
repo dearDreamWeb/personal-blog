@@ -4,7 +4,7 @@ date: 2020-09-23 09:20:38
 tags: [Node,express]
 categories: 后端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 前提说明
 本文章采用了svg-captcha方法去实现验证码功能，后端是express，前端是vue。  

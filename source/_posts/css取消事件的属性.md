@@ -4,7 +4,7 @@ date: 2020-10-16 09:00:22
 tags: css
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 方法
 

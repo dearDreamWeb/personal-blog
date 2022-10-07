@@ -4,7 +4,7 @@ date: 2020-08-11 18:19:41
 tags: [Vue,TypeScript]
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # Vue.extend 和 vue-class-component
 使用 TypeScript 写 Vue 组件时，有两种推荐形式：

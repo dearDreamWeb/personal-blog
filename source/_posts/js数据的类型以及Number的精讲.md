@@ -4,7 +4,7 @@ date: 2020-07-22 08:08:48
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # js中的数据类型
 - 基本数据类型

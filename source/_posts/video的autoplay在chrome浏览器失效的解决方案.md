@@ -4,7 +4,7 @@ date: 2021-01-23 19:50:01
 tags: Html5
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 问题
 当给video或audio标签添加autoplay属性时，在chrome浏览器会失效。

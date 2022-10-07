@@ -4,7 +4,7 @@ date: 2020-05-17 21:25:27
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、用openssl工具生成RSA的公钥和私钥
 <a href="https://oomake.com/download/openssl">openssl下载地址</a>  

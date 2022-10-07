@@ -4,7 +4,7 @@ date: 2020-10-07 21:29:59
 tags: ES6
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 语法
 padStart(len, str)

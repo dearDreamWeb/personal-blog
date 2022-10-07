@@ -4,7 +4,7 @@ date: 2020-05-28 08:50:53
 tags: React
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、在package.json中添加rules
 在package.json中找到eslintConfig这一项，在里面添加rules进行修改即可  

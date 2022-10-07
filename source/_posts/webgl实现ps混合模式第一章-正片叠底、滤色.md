@@ -4,7 +4,7 @@ categories: 前端
 date: 2022-08-18 10:24:34
 tags: WebGl
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、混合模式
 在ps中有很多的混合模式，如：正片叠底、滤色、变暗、变亮等等。下图为ps的算法公式图：

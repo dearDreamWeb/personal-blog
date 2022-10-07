@@ -4,7 +4,7 @@ date: 2020-04-13 16:52:43
 tags: Vue
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 版本
 目前使用的是vue-cli4.0

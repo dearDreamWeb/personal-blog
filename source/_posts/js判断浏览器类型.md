@@ -5,7 +5,7 @@ date: 2020-02-26 16:24:56
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 ## 判断浏览器类型用的方法是
 <font color="#f40"> navigator.userAgent </font>  //取得浏览器的userAgent字符串  

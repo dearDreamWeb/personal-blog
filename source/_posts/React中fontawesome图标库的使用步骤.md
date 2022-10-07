@@ -4,7 +4,7 @@ date: 2020-10-21 22:23:52
 tags: React
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 使用的是最新版`svg`的，之前版本使用的的`font icon`
 # 一、安装依赖

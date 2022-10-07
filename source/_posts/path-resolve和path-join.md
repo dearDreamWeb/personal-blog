@@ -4,7 +4,7 @@ date: 2020-08-20 20:03:23
 tags: Node
 categories: 后端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、path模块的引入
 需要引入path模块才能使用path.resolve()和path.join()

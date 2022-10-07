@@ -4,7 +4,7 @@ date: 2020-05-12 20:50:44
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # 一、应用场景
 目前我想到的应用场景就只有一个，就是用手机上用脚本自动点击指定位置的元素。

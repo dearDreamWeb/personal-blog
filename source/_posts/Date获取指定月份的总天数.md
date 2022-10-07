@@ -4,7 +4,7 @@ date: 2021-07-15 09:55:33
 tags: JavaScript
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # new Date()使用手册 
 new Date()的参数：

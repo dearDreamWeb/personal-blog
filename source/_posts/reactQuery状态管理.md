@@ -4,7 +4,7 @@ date: 2021-07-08 20:09:16
 tags: react
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # react-query简介
 react-query是用于状态管理，是为了处理请求的状态。目前在github上已有21.1k个star了。[react-query的github地址](https://github.com/tannerlinsley/react-query)

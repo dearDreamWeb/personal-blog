@@ -4,7 +4,7 @@ date: 2021-07-01 14:51:56
 tags: [css,React]
 categories: 前端
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 React的TypeScript中使用手册:
 # @emotion/react 

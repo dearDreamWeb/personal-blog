@@ -4,7 +4,7 @@ date: 2021-01-29 09:47:22
 tags: git
 categories: git
 ---
-<script type="text/javascript" src="/js/bai.js"></script>
+
 
 # .gitignore文件配置
 如果没有.gitignore文件创建一个，有的话可以直接修改。可以使用`ls -a`查看所有的隐藏的文件。
