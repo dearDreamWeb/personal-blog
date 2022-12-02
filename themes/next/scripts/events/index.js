@@ -13,7 +13,6 @@ hexo.extend.filter.register('before_generate', () => {
   require('./lib/highlight')(hexo);
   // Menu and sub menu
   require('./lib/navigation')(hexo);
-  require('./lib/diy_view')(hexo);
 }, 0);
 
 hexo.on('ready', () => {
