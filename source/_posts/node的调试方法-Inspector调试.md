@@ -2,7 +2,7 @@
 title: node的调试方法-Inspector调试
 date: 2023-02-03 13:57:28
 tags: Node
-categories: 后端
+categories: 后端 
 ---
 举例一个简单的例子，创建一个app.js入口文件
 

@@ -121,7 +121,7 @@ deploy:
   # repo: https://github.com/dearDreamWeb/blogwxb.github.io.git
   #       https://gitee.com/flyingwxb/blogwxb.gitee.io.git
   repository:
-    github: https://github.com/dearDreamWeb/blogwxb.github.io.git
+    github: https://github.com/dearDreamWeb/personal-blog.git
     gitee: https://gitee.com/flyingwxb/blogwxb.gitee.io.git
   branch: master
 

@@ -622,7 +622,7 @@ livere_uid: # <your_uid>
 gitalk:
   enable: true
   github_id: dearDreamWeb
-  repo: blogwxb.github.io
+  repo: personal-blog
   client_id: 86685a6104f8e6ba5827
   client_secret: 7cf015e84bbe755bde20c8aca767977e316304ad
   admin_user: dearDreamWeb
