@@ -34,7 +34,7 @@ docker rmi 4db779627117 4db739647555 4db779627133
 
 # 方案
 
-可以使用`grep`函数找出所有`test1`镜像，然后用`awk`函数找出所有的镜像`ID`，并将它们作为参数使用 `docker rmi`命令进行删除所有`test1`的镜像。 &#x20;
+可以使用`grep`函数找出所有`test1`镜像，然后用`awk`函数找出所有的镜像`ID`，并将它们作为参数使用 `docker rmi`命令进行删除所有`test1`的镜像。 
 
 ```bash
 # 查询所有的包含test1的镜像
@@ -62,7 +62,7 @@ test2                     1.0.0               4db779627477        46 hours ago  
 
     $ docker rmi -f `docker images | grep test1 | awk '{print $3}'`
 
-`grep`只是模糊匹配的，如果只想删除所有包含`test`的镜像呢？ &#x20;
+`grep`只是模糊匹配的，如果只想删除所有包含`test`的镜像呢？ 
 
 如果用刚才的方法会发现不止`test`镜像没有了，`test1` 和 `test2`镜像也被删除了，这时候要使用 `grep` 的 `-w` 参数进行精准匹配才行。
 
@@ -79,7 +79,7 @@ test2                     1.0.0               4db779627477        46 hours ago  
 
 
 
-awk函数`{print $3}` 返回的是根据空格切分的镜像的第三部分的值，比如 &#x20;
+awk函数`{print $3}` 返回的是根据空格切分的镜像的第三部分的值，比如 
 
     node                      dev                 f22e6969a040        11 seconds ago      614MB
 
