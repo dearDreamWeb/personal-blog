@@ -31,9 +31,9 @@ tags: Docker
 
     ```bash
     # 语法
-    mongorestore -h dbhost -d dbname path
+    mongorestore -h dbhost -u <username> -p <password> --authenticationDatabase admin -d dbname path
     #例子
-    mongorestore -h 127.0.0.1:27017 -d test /data/mongodb 
+    mongorestore -h 127.0.0.1:27017 -u admin -p 123456 --authenticationDatabase admin -d test /data/mongodb 
 
     ```
 
@@ -58,7 +58,8 @@ docker run \
 --name mongod \ 
 -p 27017:27017 \ 
 -v /data/mongodb:/data/mongodb/ \ 
--d mongo
+-d mongo \
+-- auth
 ```
 
 参数
@@ -67,6 +68,7 @@ docker run \
 *   \-p 指定端口映射，格式为：主机(宿主)端口:容器端口
 *   \-v 宿主主机文件夹和容器中的文件夹进行映射
 *   \-d 运行的镜像
+*   \-- auth 连接数据库需要用户名和密码
 
 docker 进入容器的命令
 
@@ -83,6 +85,27 @@ docker exec --it <container>
  docker exec -it mongo mongo admin
 # 创建一个名为 admin，密码为 123456 的用户。
 > db.createUser({ user:'admin',pwd:'123456',roles:[ { role:'userAdminAnyDatabase', db: 'admin'},"readWriteAnyDatabase"]});
+```
+roles：指定用户的角色，可以用一个空数组给新用户设定空角色；在roles字段,可以指定内置角色和用户定义的角色。role里的角色可以选：
+
+Built-In Roles（内置角色）：
+
+1.  数据库用户角色：read、readWrite;
+2.  数据库管理角色：dbAdmin、dbOwner、userAdmin；
+3.  集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManager；
+4.  备份恢复角色：backup、restore；
+5.  所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase
+6.  超级用户角色：root
+
+现在是定义好了超级用户角色，如果想要再次添加角色就需要进行验证。
+例子：如果现在想要再创建一个角色为`readAnyDatabase`的权限，需要先`db.auth(用户名，密码)`进行身份认证，通过之后就可以创建用户。
+
+```bash
+# 进行身份验证
+> db.auth("admin","123456")
+1    # 1代表通过，0代表未通过
+# 创建新的用户
+>db.createUser({ user:'user',pwd:'123456',roles:[ { role:'userAdminAnyDatabase', db: 'admin'},"readWriteAnyDatabase"]});
 ```
 
 # 备份
@@ -117,8 +140,8 @@ shell脚本为：
 
 ```bash
 #!/bin/bash
-
-filename='/data/mongodb/test'
+cd /data/mongodb
+filename='test'
 DATE=$(date +%Y%m%d)
 
 # 删除上次的MongoDB导出的数据库test文件夹
@@ -126,13 +149,16 @@ if [ -d "$filename" ]; then
 rm -rf "$filename"
 fi
 
-# 进入mongo容器并导出数据库
+# 进入mongo容器并导出test数据库
 docker exec mongo mongodump -h 127.0.0.1:27017 -d test -u admin -p 123456 --authenticationDatabase admin  -o /data/mongodb
 
 # 压缩test文件夹成压缩包
 if [ -d "$filename" ]; then
-tar czvf /data/mongodb/mongdb-backup-$DATE.tar.gz $filename
+tar czvf mongdb-backup-$DATE.tar.gz $filename
 fi
+
+# 保留最新60天数据
+ls -t | tail -n +60 | xargs rm -rf
 ```
 
 使用crontab去定时执行shell脚本
