@@ -35,7 +35,7 @@ CMD ["npm","run","docker-start"]
 
 这样子一开始只是只把`package.json`和`package.lock.json`文件copy到镜像中，后面进行依赖安装，之后再把其余文件copy到镜像中。 
 
-这样有个好处是之后的部署只要没有修改package.json中的依赖，每次部署遇到`cnpm install`就会走到d`ocker layer中缓存中`，不用再重新安装依赖了。可以加快部署的速度。  
+这样有个好处是之后的部署只要没有修改package.json中的依赖，每次部署遇到`cnpm install`就会走到`docker layer中缓存中`，不用再重新安装依赖了。可以加快部署的速度。  
 
 但是这样子没有解决node项目镜像的体积。
 
