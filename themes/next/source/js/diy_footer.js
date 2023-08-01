@@ -52,7 +52,8 @@ function pageHistory() {
   }
   // 保存该次浏览记录
   var xhrHistory = new XMLHttpRequest();
-  xhrHistory.open("GET", `https://middle-platform.vercel.app/api/blog/history?uvId=${uvId}&path=${pathname}&type=${type}`, true);
+  xhrHistory.open("GET", `https://hangpiao.blogwxb.cn/goMiddlePlatform/v1/blog/history?uvId=${uvId}&path=${pathname}&type=${type}`, true);
+  xhrHistory.setRequestHeader("Referer", "https://www.blogwxb.cn");
   xhrHistory.send(null)
 
   var uvViews = document.getElementById('uv-views')
@@ -61,7 +62,7 @@ function pageHistory() {
   // 获取历史记录pv uv
   if (uvViews && pvViews) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", `https://middle-platform.vercel.app/api/blog/getPageHistory`, true);
+    xhr.open("GET", `https://hangpiao.blogwxb.cn/goMiddlePlatform/v1/blog/getPageHistory`, true);
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let responseData = JSON.parse(this.responseText || "{}");
@@ -73,6 +74,7 @@ function pageHistory() {
         }
       }
     }
+    xhr.setRequestHeader("Referer", "https://www.blogwxb.cn");
     xhr.send(null)
   }
 
@@ -80,7 +82,7 @@ function pageHistory() {
   var viewText = document.getElementById('views_text')
   if (viewText && pathname !== '/') {
     var xhrPage = new XMLHttpRequest();
-    xhrPage.open("GET", `https://middle-platform.vercel.app/api/blog/getPageHistory?path=${pathname}`, true);
+    xhrPage.open("GET", `https://hangpiao.blogwxb.cn/goMiddlePlatform/v1/blog/getPageHistory?path=${pathname}`, true);
     xhrPage.onreadystatechange = function () {
       // 监听xhr对象的请求状态 与服务器的响应状态
       if (this.readyState == 4 && this.status == 200) {
@@ -89,6 +91,7 @@ function pageHistory() {
 
       }
     }
+    xhrPage.setRequestHeader("Referer", "https://www.blogwxb.cn");
     xhrPage.send(null)
   }
 }
