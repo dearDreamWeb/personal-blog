@@ -63,7 +63,7 @@ function pageHistory() {
   // 获取历史记录pv uv
   if (uvViews && pvViews) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", `${DOMAIN}/getPageHistory?path=*`, true);
+    xhr.open("GET", `${DOMAIN}/getPageHistory`, true);
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let responseData = JSON.parse(this.responseText || "{}");
