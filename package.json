@@ -36,5 +36,8 @@
   },
   "devDependencies": {
     "hexo-related-posts": "^1.5.0"
+  },
+  "volta": {
+    "node": "16.20.2"
   }
 }

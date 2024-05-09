@@ -25,6 +25,40 @@ function createHash(hashLength = 24) {
 }
 
 /**
+ * 生成浏览器指纹
+ */
+async function getBrowserFingerprinting() {
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  const txt = "BrowserLeaks,com <canvas> 1.0";
+  ctx.textBaseline = "top";
+  ctx.font = "14px 'Arial'";
+  ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = "#f60";
+  ctx.fillRect(125, 1, 62, 20);
+  ctx.fillStyle = "#069";
+  ctx.fillText(txt, 2, 15);
+  ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+  ctx.fillText(txt, 4, 17);
+
+  // 要加密的字符串
+  const str = canvas.toDataURL();
+
+  // 将字符串转换为 ArrayBuffer
+  const encoder = new TextEncoder();
+  const encodedStr = encoder.encode(str);
+
+  // 使用 Web Crypto API 进行 SHA-256 加密
+  const crypto = window.crypto.subtle;
+  const hashArrayBuffer = await crypto.digest("SHA-256", encodedStr);
+  // 将 ArrayBuffer 转换为十六进制字符串
+  const hashArray = Array.from(new Uint8Array(hashArrayBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+  return hashHex
+}
+
+
+/**
  * 监听url变化
  */
 function changeHistory() {
@@ -43,12 +77,12 @@ function changeHistory() {
 }
 
 // 保存并获取该页面的历史记录pv
-function pageHistory() {
+async function pageHistory() {
   var uvId = localStorage.getItem('uvId');
   var pathname = location.pathname;
   var type = 'PV';
   if (!uvId) {
-    uvId = createHash()
+    uvId = await getBrowserFingerprinting()
     localStorage.setItem('uvId', uvId)
     type = 'UV'
   }
